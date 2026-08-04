@@ -500,6 +500,9 @@
     .footer-logo span { display: block; margin-left: .62em; font-size: 1.25em; color: var(--signal); }
     .footer-col { color: var(--gray); font: 11px/1.9 ui-monospace, monospace; text-transform: uppercase; letter-spacing: .08em; }
     .footer-col b { display: block; margin-bottom: 12px; color: var(--ivory); font-weight: 500; }
+    .footer-col a { display: block; color: var(--gray); transition: color .2s var(--ease); }
+    .footer-col a:hover { color: var(--signal); }
+    .footer-col .dim-link { display: block; opacity: .5; cursor: default; }
     .footer-bottom { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 20px; color: var(--gray); font: 10px/1.5 ui-monospace, monospace; }
 
     dialog {
@@ -656,7 +659,7 @@
     <a href="#updates" data-lang-text="navUpdates">Aggiornamenti</a>
     <a href="#press">Press</a>
     <a href="#contact" data-lang-text="navContact">Contatti</a>
-    <div class="mobile-meta">PROJECT 001 / RACING DYNASTY<br>CASTANO PRIMO / ITALY</div>
+    <div class="mobile-meta">PROJECT 001 / RACING DYNASTY<br>ITALY</div>
   </div>
 
   <main id="main">
@@ -754,8 +757,8 @@
         <div class="metric-grid reveal">
           <div class="metric"><strong data-count="2">0</strong><span data-lang-text="metric1">Campionati indipendenti</span></div>
           <div class="metric"><strong data-count="7">0</strong><span data-lang-text="metric2">Elementi della scuderia</span></div>
-          <div class="metric"><strong data-count="20">0</strong><span data-lang-text="metric3">Piloti nel roster</span></div>
-          <div class="metric"><strong data-count="52">0</strong><span data-lang-text="metric4">Circuiti da scoprire</span></div>
+          <div class="metric"><strong data-count="250">0</strong><span data-lang-text="metric3">Piloti nel roster</span></div>
+          <div class="metric"><strong data-count="50">0</strong><span data-lang-text="metric4">Circuiti da scoprire</span></div>
         </div>
       </div>
     </section>
@@ -796,11 +799,11 @@
             <div>
               <div class="micro">PROJECT 001 / GAME</div>
               <h3>Racing Dynasty</h3>
-              <p data-lang-text="gameKitCopy">Sinossi, caratteristiche principali, dati di progetto e materiali predisposti per la futura pagina press del gioco.</p>
+              <p data-lang-text="gameKitCopy">Sinossi, caratteristiche principali e dati di progetto, pronti per stampa e collaborazioni.</p>
             </div>
             <div class="press-actions">
-              <button class="button primary open-game" type="button" data-lang-text="openGameSheet">Apri game sheet</button>
-              <a class="button" href="#contact" data-lang-text="pressContact">Contatto stampa</a>
+              <button class="button primary" id="downloadGameSheet" type="button" data-lang-text="downloadGameSheetBtn">Scarica game sheet</button>
+              <button class="button open-game" type="button" data-lang-text="tryGameSheet">Prova la simulazione</button>
             </div>
           </article>
         </div>
@@ -830,10 +833,10 @@
     <div class="site-shell footer-inner">
       <div class="footer-grid">
         <div class="footer-logo">FUORI<span>SCALA</span></div>
-        <div class="footer-col"><b data-lang-text="footerGames">Giochi</b>Racing Dynasty<br>Project 002</div>
-        <div class="footer-col"><b data-lang-text="footerStudio">Studio</b>Press<br>Support<br>Social</div>
+        <div class="footer-col"><b data-lang-text="footerGames">Giochi</b><a href="https://fuoriscala-dev.github.io/racing-dynasty/" target="_blank" rel="noopener">Racing Dynasty</a><span class="dim-link" data-lang-text="notAnnounced">Non annunciato</span></div>
+        <div class="footer-col"><b data-lang-text="footerStudio">Studio</b><a href="#press">Press</a><a href="#contact" data-lang-text="navContact">Contatti</a></div>
       </div>
-      <div class="footer-bottom"><span>© 2026 FUORISCALA — DEMO CONCEPT</span><span data-lang-text="footerMade">CREATO IN ITALIA / PENSATO FUORI SCALA</span></div>
+      <div class="footer-bottom"><span>© 2026 FUORISCALA</span><span data-lang-text="footerMade">CREATO IN ITALIA / PENSATO FUORI SCALA</span></div>
     </div>
   </footer>
 
@@ -878,8 +881,8 @@
         manifestoCopy: 'FUORISCALA è uno studio indipendente italiano fondato su un’idea semplice: la dimensione del team non deve determinare quella dell’ambizione. Progettiamo giochi leggibili, profondi e riconoscibili, senza fingere di essere più grandi di ciò che siamo.',
         principle1: 'Progettato', principle1Copy: 'Ogni elemento deve avere una ragione per esistere.', principle2: 'Diretto', principle2Copy: 'Niente linguaggio aziendale finto o promesse vuote.', principle3: 'Autoriale', principle3Copy: 'Ogni progetto deve conservare una personalità propria.', principle4: 'Fuori misura', principle4Copy: 'Il formato non deve diventare un limite creativo.',
         metric1: 'Campionati indipendenti', metric2: 'Elementi della scuderia', metric3: 'Piloti nel roster', metric4: 'Circuiti da scoprire',
-        latest: 'Ultimi', updates: 'aggiornamenti', news1: 'FUORISCALA diventa la casa di Racing Dynasty.', news2: 'Racing Dynasty è ora giocabile online.', news3: 'La carriera entra nella fase finale di sviluppo.',
-        studioKit: 'Studio kit', studioKitCopy: 'Profilo dello studio, descrizioni ufficiali, identità del marchio e contatti per stampa e collaborazioni.', downloadSheet: 'Scarica fact sheet', copyDescription: 'Copia descrizione', gameKitCopy: 'Sinossi, caratteristiche principali, dati di progetto e materiali predisposti per la futura pagina press del gioco.', openGameSheet: 'Apri game sheet', pressContact: 'Contatto stampa',
+        latest: 'Ultimi', updates: 'aggiornamenti', news1: 'FUORISCALA diventa la casa di Racing Dynasty.', news2: 'Racing Dynasty è ora giocabile online.', news3: 'Dal prototipo al lancio: come è nata la carriera di Racing Dynasty.',
+        studioKit: 'Studio kit', studioKitCopy: 'Profilo dello studio, descrizioni ufficiali, identità del marchio e contatti per stampa e collaborazioni.', downloadSheet: 'Scarica fact sheet', copyDescription: 'Copia descrizione', gameKitCopy: 'Sinossi, caratteristiche principali e dati di progetto, pronti per stampa e collaborazioni.', downloadGameSheetBtn: 'Scarica game sheet', tryGameSheet: 'Prova la simulazione',
         contactMicro: 'Contatti / Collaborazioni', talk: 'PARLIAMO.', contactCopy: 'Per stampa, collaborazioni, feedback o per seguire lo sviluppo di Racing Dynasty.', nameLabel: 'Nome', subjectLabel: 'Oggetto', messageLabel: 'Messaggio', sendDemo: 'Invia messaggio', formNote: 'Si aprirà il tuo programma di posta predefinito.', footerGames: 'Giochi', footerStudio: 'Studio', footerMade: 'CREATO IN ITALIA / PENSATO FUORI SCALA',
         dialogIntro: 'Costruisci la tua scuderia scegliendo il livello dei reparti. Questa piccola simulazione dimostra l’interattività del sito: modifica i valori e osserva cambiare il rating complessivo.', drivers: 'Piloti', engine: 'Motore', chassis: 'Telaio', strategy: 'Strategia', teamRating: 'Rating scuderia'
       },
@@ -898,8 +901,8 @@
         manifestoCopy: 'FUORISCALA is an independent Italian studio founded on one simple idea: team size should never define the size of the ambition. We design readable, deep and distinctive games without pretending to be bigger than we are.',
         principle1: 'Designed', principle1Copy: 'Every element must have a reason to exist.', principle2: 'Direct', principle2Copy: 'No fake corporate language or empty promises.', principle3: 'Authorial', principle3Copy: 'Every project must preserve its own personality.', principle4: 'Outsized', principle4Copy: 'Format should never become a creative limit.',
         metric1: 'Independent championships', metric2: 'Team elements', metric3: 'Drivers in the roster', metric4: 'Circuits to discover',
-        latest: 'Latest', updates: 'updates', news1: 'FUORISCALA becomes the home of Racing Dynasty.', news2: 'Racing Dynasty is now playable online.', news3: 'Career mode enters the final stage of development.',
-        studioKit: 'Studio kit', studioKitCopy: 'Studio profile, official descriptions, brand identity and contacts for press and collaborations.', downloadSheet: 'Download fact sheet', copyDescription: 'Copy description', gameKitCopy: 'Synopsis, key features, project data and materials prepared for the future game press page.', openGameSheet: 'Open game sheet', pressContact: 'Press contact',
+        latest: 'Latest', updates: 'updates', news1: 'FUORISCALA becomes the home of Racing Dynasty.', news2: 'Racing Dynasty is now playable online.', news3: 'From prototype to launch: how Racing Dynasty\u2019s career mode came together.',
+        studioKit: 'Studio kit', studioKitCopy: 'Studio profile, official descriptions, brand identity and contacts for press and collaborations.', downloadSheet: 'Download fact sheet', copyDescription: 'Copy description', gameKitCopy: 'Synopsis, key features and project data, ready for press and collaborations.', downloadGameSheetBtn: 'Download game sheet', tryGameSheet: 'Try the simulation',
         contactMicro: 'Contact / Collaborations', talk: 'LET’S TALK.', contactCopy: 'For press, collaborations, feedback or to follow Racing Dynasty development.', nameLabel: 'Name', subjectLabel: 'Subject', messageLabel: 'Message', sendDemo: 'Send message', formNote: 'This will open your default email app.', footerGames: 'Games', footerStudio: 'Studio', footerMade: 'MADE IN ITALY / DESIGNED OUT OF SCALE',
         dialogIntro: 'Build your team by setting the performance of each department. This small simulation demonstrates the website interaction: change the values and watch the overall rating update.', drivers: 'Drivers', engine: 'Engine', chassis: 'Chassis', strategy: 'Strategy', teamRating: 'Team rating'
       }
@@ -1010,9 +1013,9 @@
         en: 'Racing Dynasty is available now, free, directly from your browser — desktop and mobile. No download, no install: just open the link and play.'
       },
       development: {
-        date: 'BUILD 0.9', title: 'FINAL STRETCH',
-        it: 'La struttura della carriera, i due campionati e il sistema della scuderia sono definiti. La fase finale è concentrata su rifinitura, bilanciamento e preparazione alla pubblicazione.',
-        en: 'Career structure, the two championships and the team system are defined. The final stage focuses on polish, balancing and release preparation.'
+        date: 'BUILD 0.9', title: 'DIETRO LE QUINTE',
+        it: 'La struttura della carriera, i due campionati e il sistema della scuderia sono nati attraverso decine di iterazioni di bilanciamento — dalla prima build giocabile fino alla versione ora online.',
+        en: 'Career structure, the two championships and the team system were shaped through dozens of balancing iterations — from the first playable build to the version now live.'
       }
     };
     document.querySelectorAll('.update').forEach(item => {
@@ -1031,6 +1034,52 @@
       showToast(currentLang === 'it' ? 'Fact sheet generato.' : 'Fact sheet generated.');
     });
 
+    document.getElementById('downloadGameSheet').addEventListener('click', () => {
+      const text = currentLang === 'it' ?
+`RACING DYNASTY — GAME SHEET
+
+STUDIO: FUORISCALA
+GENERE: Gestionale motoristico roguelike
+PIATTAFORMA: Browser (desktop e mobile), nessuna installazione richiesta
+LINK: https://fuoriscala-dev.github.io/racing-dynasty/
+
+SINOSSI
+Costruisci una scuderia di Formula da zero: due piloti, cinque reparti tecnici. Ogni stagione è una nuova run, con piloti e componenti generati proceduralmente da un pool di 250 piloti e 80 motori. Punta al titolo Piloti, al titolo Costruttori o a entrambi (Grande Slam) su un calendario di gare scelte tra 50 circuiti.
+
+CARATTERISTICHE PRINCIPALI
+- Due classifiche indipendenti: Piloti e Costruttori
+- Sistema di sinergie tra pezzi della scuderia (mentalità condivise)
+- THE GOAT: pilota Immortal rarissimo con probabilità di comparsa reale
+- Sistema Sponsor a 3 livelli con trade-off economici
+- Garage con livree personalizzabili (in arrivo)
+- 50 obiettivi sbloccabili, Museo Dynasty, Sala Trofei
+
+PRIMO TITOLO DI: FUORISCALA` :
+`RACING DYNASTY — GAME SHEET
+
+STUDIO: FUORISCALA
+GENRE: Motorsport management roguelike
+PLATFORM: Browser (desktop and mobile), no install required
+LINK: https://fuoriscala-dev.github.io/racing-dynasty/
+
+SYNOPSIS
+Build a Formula team from scratch: two drivers, five technical departments. Every season is a new run, with drivers and components procedurally drawn from a pool of 250 drivers and 80 engines. Chase the Drivers' title, the Constructors' title, or both (Grand Slam) across a calendar drawn from 50 circuits.
+
+KEY FEATURES
+- Two independent standings: Drivers and Constructors
+- Team synergy system based on shared mentalities
+- THE GOAT: an ultra-rare Immortal driver with a real, documented spawn rate
+- 3-tier Sponsor system with real economic trade-offs
+- Garage with customizable liveries (coming soon)
+- 50 unlockable achievements, Dynasty Museum, Trophy Room
+
+FIRST TITLE BY: FUORISCALA`;
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob); const a = document.createElement('a');
+      a.href = url; a.download = 'Racing_Dynasty_game_sheet.txt'; a.click(); URL.revokeObjectURL(url);
+      showToast(currentLang === 'it' ? 'Game sheet generato.' : 'Game sheet generated.');
+    });
+
     document.getElementById('copyStudioCopy').addEventListener('click', async () => {
       const text = currentLang === 'it' ? 'FUORISCALA è uno studio videoludico indipendente italiano che crea giochi ambiziosi, costruiti attorno a sistemi profondi, decisioni significative e identità riconoscibili.' : 'FUORISCALA is an independent Italian game studio creating ambitious games built around deep systems, meaningful decisions and distinctive identities.';
       try { await navigator.clipboard.writeText(text); showToast(currentLang === 'it' ? 'Descrizione copiata.' : 'Description copied.'); }
@@ -1038,7 +1087,7 @@
     });
 
     // NOTA: nessun indirizzo email reale e' stato fornito — placeholder da sostituire prima del lancio.
-    const CONTACT_EMAIL = 'contatti@fuoriscala.it'; // <-- SOSTITUIRE con l'indirizzo vero
+    const CONTACT_EMAIL = 'email-da-confermare@fuoriscala.it'; // <-- PLACEHOLDER: sostituire con l'indirizzo vero prima del lancio pubblico
     document.getElementById('contactForm').addEventListener('submit', event => {
       event.preventDefault();
       const form = event.currentTarget;
