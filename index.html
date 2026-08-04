@@ -1,0 +1,1054 @@
+<!doctype html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0d0f">
+  <meta name="description" content="FUORISCALA — studio videoludico indipendente italiano. Creatori di Racing Dynasty.">
+  <title>FUORISCALA — Independent Game Studio</title>
+  <style>
+    :root {
+      --carbon: #0d0d0f;
+      --carbon-2: #141417;
+      --panel: #18181c;
+      --panel-2: #202025;
+      --ivory: #f3f0e8;
+      --muted: #a9a7a1;
+      --gray: #77777e;
+      --line: rgba(243, 240, 232, 0.14);
+      --signal: #e54732;
+      --signal-deep: #a82a1f;
+      --gold: #d2a73b;
+      --max: 1480px;
+      --pad: clamp(20px, 4vw, 64px);
+      --ease: cubic-bezier(.2,.75,.25,1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--carbon); }
+    body {
+      margin: 0;
+      color: var(--ivory);
+      background:
+        radial-gradient(circle at 72% 11%, rgba(229,71,50,.08), transparent 27rem),
+        var(--carbon);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+    body.menu-open, body.modal-open { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font: inherit; }
+    button { color: inherit; }
+    ::selection { background: var(--signal); color: #fff; }
+    :focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
+
+    .noise {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      opacity: .035;
+      mix-blend-mode: screen;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+    }
+
+    .skip-link {
+      position: fixed;
+      z-index: 500;
+      left: 12px;
+      top: -60px;
+      padding: 12px 16px;
+      background: var(--ivory);
+      color: var(--carbon);
+      transition: top .2s;
+    }
+    .skip-link:focus { top: 12px; }
+
+    .site-shell { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+    header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 60;
+      transition: background .25s, border-color .25s;
+      border-bottom: 1px solid transparent;
+    }
+    header.scrolled {
+      background: rgba(13,13,15,.88);
+      backdrop-filter: blur(18px);
+      border-color: var(--line);
+    }
+    .nav {
+      min-height: 88px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .brand {
+      display: inline-grid;
+      grid-template-columns: auto auto;
+      align-items: end;
+      gap: .08em;
+      font-weight: 950;
+      font-size: clamp(20px, 2vw, 29px);
+      line-height: .76;
+      letter-spacing: -.085em;
+      text-transform: uppercase;
+    }
+    .brand .scale { color: var(--signal); font-size: 1.27em; transform: translateY(.08em); }
+    .brand-sub {
+      display: block;
+      grid-column: 1 / -1;
+      margin-top: 8px;
+      font: 9px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .18em;
+      color: var(--gray);
+    }
+    .desktop-nav { display: flex; align-items: center; gap: clamp(18px, 2.6vw, 42px); }
+    .desktop-nav a, .utility-btn {
+      position: relative;
+      border: 0;
+      background: none;
+      padding: 10px 0;
+      font: 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .desktop-nav a::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 100%; bottom: 2px;
+      height: 1px; background: var(--signal);
+      transition: right .25s var(--ease);
+    }
+    .desktop-nav a:hover::after, .desktop-nav a.active::after { right: 0; }
+    .nav-tools { display: flex; align-items: center; gap: 15px; }
+    .lang-toggle {
+      border: 1px solid var(--line);
+      background: var(--carbon-2);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 3px;
+      min-width: 84px;
+    }
+    .lang-toggle button {
+      border: 0; background: transparent; color: var(--gray);
+      padding: 7px 8px; cursor: pointer;
+      font: 10px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    .lang-toggle button.active { background: var(--ivory); color: var(--carbon); }
+    .menu-button {
+      display: none;
+      width: 42px; height: 42px;
+      border: 1px solid var(--line);
+      background: transparent;
+      align-items: center; justify-content: center;
+      cursor: pointer;
+    }
+    .menu-button span, .menu-button::before, .menu-button::after {
+      content: ""; display: block; position: absolute; width: 18px; height: 1px; background: var(--ivory); transition: .25s;
+    }
+    .menu-button::before { transform: translateY(-6px); }
+    .menu-button::after { transform: translateY(6px); }
+    .menu-button.open span { opacity: 0; }
+    .menu-button.open::before { transform: rotate(45deg); }
+    .menu-button.open::after { transform: rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 55;
+      background: var(--carbon);
+      padding: 110px var(--pad) 40px;
+    }
+    .mobile-menu.open { display: flex; flex-direction: column; }
+    .mobile-menu a {
+      border-top: 1px solid var(--line);
+      padding: 21px 0;
+      font-size: clamp(34px, 11vw, 64px);
+      font-weight: 900;
+      letter-spacing: -.065em;
+      line-height: .9;
+    }
+    .mobile-menu a:last-of-type { border-bottom: 1px solid var(--line); }
+    .mobile-meta { margin-top: auto; color: var(--gray); font: 11px/1.6 ui-monospace, monospace; }
+
+    main { overflow: clip; }
+    section { position: relative; border-top: 1px solid var(--line); }
+
+    .hero {
+      min-height: 100svh;
+      padding: 150px 0 70px;
+      border-top: 0;
+      display: grid;
+      align-items: center;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(380px, .92fr);
+      gap: clamp(44px, 7vw, 112px);
+      align-items: center;
+    }
+    .micro {
+      color: var(--signal);
+      font: 11px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      margin: 22px 0 28px;
+      text-transform: uppercase;
+      line-height: .74;
+      letter-spacing: -.095em;
+      font-size: clamp(76px, 10vw, 166px);
+      font-weight: 950;
+    }
+    .hero h1 span { display: block; }
+    .hero h1 .hero-scale { margin-left: 14%; font-size: 1.24em; color: var(--ivory); }
+    .hero-copy {
+      max-width: 660px;
+      font-size: clamp(18px, 1.55vw, 24px);
+      line-height: 1.55;
+      color: #c9c6bf;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 38px; }
+    .button {
+      min-height: 50px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      border: 1px solid var(--line);
+      padding: 0 20px;
+      background: transparent;
+      cursor: pointer;
+      text-transform: uppercase;
+      font: 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .1em;
+      transition: transform .2s var(--ease), background .2s, color .2s, border-color .2s;
+    }
+    .button:hover { transform: translateY(-2px); border-color: rgba(243,240,232,.45); }
+    .button.primary { background: var(--signal); color: #fff; border-color: var(--signal); }
+    .button.primary:hover { background: #fa573f; }
+    .button.ghost::after { content: "↘"; color: var(--signal); font-size: 16px; }
+
+    .hero-card {
+      min-height: 650px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(243,240,232,.18);
+      background:
+        linear-gradient(150deg, rgba(229,71,50,.2), transparent 38%),
+        linear-gradient(330deg, rgba(210,167,59,.12), transparent 28%),
+        #151519;
+      isolation: isolate;
+      box-shadow: 0 50px 120px rgba(0,0,0,.32);
+    }
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      width: 850px; height: 850px;
+      border-radius: 50%;
+      border: 1px solid rgba(229,71,50,.4);
+      top: -310px; right: -530px;
+      box-shadow:
+        0 0 0 42px rgba(229,71,50,.09),
+        0 0 0 88px rgba(210,167,59,.05),
+        0 0 0 145px rgba(229,71,50,.04),
+        0 0 60px rgba(229,71,50,.25);
+      animation: orbit 18s linear infinite;
+    }
+    .hero-card::after {
+      content: "RD";
+      position: absolute;
+      right: -18px;
+      top: 45px;
+      z-index: -1;
+      font-weight: 950;
+      font-size: clamp(180px, 20vw, 310px);
+      letter-spacing: -.13em;
+      color: rgba(243,240,232,.035);
+    }
+    @keyframes orbit { to { transform: rotate(360deg); } }
+    .track-line {
+      position: absolute;
+      left: -22%;
+      top: 18%;
+      width: 135%;
+      height: 48%;
+      border: 18px solid rgba(243,240,232,.06);
+      border-radius: 51% 40% 45% 60%;
+      transform: rotate(-14deg);
+    }
+    .track-line::after {
+      content: "";
+      position: absolute;
+      inset: 32px;
+      border: 1px dashed rgba(243,240,232,.14);
+      border-radius: inherit;
+    }
+    .car {
+      position: absolute;
+      z-index: 3;
+      width: 112px; height: 24px;
+      top: 31%; left: 20%;
+      transform: rotate(6deg);
+      background: var(--signal);
+      clip-path: polygon(0 43%, 12% 20%, 54% 16%, 66% 0, 79% 0, 84% 18%, 96% 28%, 100% 65%, 83% 69%, 76% 100%, 66% 100%, 61% 68%, 28% 70%, 24% 100%, 14% 100%, 10% 69%, 0 65%);
+      filter: drop-shadow(0 0 18px rgba(229,71,50,.5));
+      animation: car-pulse 3s ease-in-out infinite;
+    }
+    @keyframes car-pulse { 50% { transform: rotate(6deg) translateX(12px); filter: drop-shadow(0 0 30px rgba(229,71,50,.75)); } }
+    .card-content {
+      position: absolute;
+      inset: auto 0 0;
+      z-index: 5;
+      padding: clamp(26px, 4vw, 48px);
+      background: linear-gradient(transparent, rgba(13,13,15,.95) 30%);
+    }
+    .card-title {
+      margin: 12px 0 18px;
+      font-size: clamp(52px, 5.5vw, 88px);
+      line-height: .82;
+      font-weight: 950;
+      letter-spacing: -.075em;
+    }
+    .card-text { max-width: 470px; color: #c7c4bd; line-height: 1.55; }
+    .card-link { display: inline-flex; margin-top: 22px; color: var(--signal); font: 11px/1 ui-monospace, monospace; letter-spacing: .1em; text-transform: uppercase; }
+    .hero-index {
+      position: absolute;
+      left: var(--pad);
+      bottom: 25px;
+      display: flex;
+      gap: 12px;
+      color: var(--gray);
+      font: 10px/1 ui-monospace, monospace;
+    }
+    .hero-index::before { content: ""; width: 62px; height: 1px; align-self: center; background: var(--signal); }
+
+    .section-inner { padding: clamp(84px, 10vw, 150px) 0; }
+    .section-heading {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 30px;
+      align-items: end;
+      margin-bottom: clamp(45px, 6vw, 86px);
+    }
+    .section-heading h2 {
+      margin: 0;
+      font-weight: 950;
+      font-size: clamp(52px, 7.4vw, 110px);
+      line-height: .8;
+      letter-spacing: -.08em;
+      text-transform: uppercase;
+    }
+    .section-heading h2 span { display: block; margin-left: .68em; }
+    .section-code {
+      min-width: 160px;
+      text-align: right;
+      color: var(--gray);
+      font: 10px/1.7 ui-monospace, monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .games-grid { display: grid; grid-template-columns: 1.55fr .75fr; gap: 20px; }
+    .game-tile {
+      min-height: 540px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: clamp(26px, 3.5vw, 46px);
+      display: flex;
+      flex-direction: column;
+      transition: border-color .25s, transform .25s var(--ease);
+    }
+    .game-tile:hover { transform: translateY(-5px); border-color: rgba(243,240,232,.38); }
+    .game-tile.featured {
+      background:
+        linear-gradient(140deg, rgba(229,71,50,.15), transparent 45%),
+        linear-gradient(320deg, rgba(210,167,59,.08), transparent 35%),
+        #151519;
+    }
+    .game-tile.featured::after {
+      content: "01";
+      position: absolute;
+      right: -28px; bottom: -85px;
+      font-size: 340px; line-height: 1;
+      letter-spacing: -.1em;
+      font-weight: 950;
+      color: rgba(243,240,232,.035);
+    }
+    .tile-top { display: flex; justify-content: space-between; gap: 20px; position: relative; z-index: 2; }
+    .status {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--muted); font: 10px/1 ui-monospace, monospace; letter-spacing: .1em; text-transform: uppercase;
+    }
+    .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 14px var(--signal); }
+    .tile-main { position: relative; z-index: 2; margin-top: auto; }
+    .tile-main h3 { margin: 0 0 18px; max-width: 900px; font-size: clamp(42px, 6vw, 92px); line-height: .84; letter-spacing: -.075em; }
+    .tile-main p { max-width: 640px; color: var(--muted); font-size: 17px; line-height: 1.6; }
+    .tile-link { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 20px; margin-top: 32px; font: 11px/1 ui-monospace, monospace; letter-spacing: .12em; color: var(--signal); }
+    .future-tile { background: #111114; }
+    .future-tile .tile-main h3 { font-size: clamp(36px, 4vw, 56px); }
+    .future-tile::before {
+      content: ""; position: absolute; inset: 0;
+      background: repeating-linear-gradient(135deg, transparent 0 20px, rgba(243,240,232,.025) 20px 21px);
+    }
+
+    .manifesto-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(50px, 9vw, 150px); }
+    .manifesto-statement {
+      font-size: clamp(52px, 7vw, 105px);
+      line-height: .84;
+      letter-spacing: -.075em;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+    .manifesto-statement em { color: var(--signal); font-style: normal; }
+    .manifesto-copy { padding-top: 8px; }
+    .manifesto-copy > p { margin: 0; font-size: clamp(19px, 2vw, 28px); line-height: 1.55; color: #cac7c0; }
+    .principles { display: grid; margin-top: 72px; }
+    .principle {
+      display: grid;
+      grid-template-columns: 70px minmax(120px, .7fr) 1.3fr;
+      gap: 22px;
+      align-items: baseline;
+      padding: 22px 0;
+      border-top: 1px solid var(--line);
+    }
+    .principle:last-child { border-bottom: 1px solid var(--line); }
+    .principle .num { color: var(--signal); font: 11px ui-monospace, monospace; }
+    .principle strong { font-size: 19px; }
+    .principle span:last-child { color: var(--gray); line-height: 1.55; }
+
+    .numbers { background: var(--ivory); color: var(--carbon); }
+    .numbers .section-code, .numbers .micro { color: var(--signal-deep); }
+    .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid rgba(13,13,15,.18); }
+    .metric { min-height: 270px; padding: 30px; border-right: 1px solid rgba(13,13,15,.18); display: flex; flex-direction: column; justify-content: space-between; }
+    .metric:last-child { border-right: 0; }
+    .metric strong { font-size: clamp(64px, 7vw, 104px); line-height: .8; letter-spacing: -.075em; }
+    .metric span { max-width: 170px; color: #525257; font: 11px/1.5 ui-monospace, monospace; text-transform: uppercase; letter-spacing: .08em; }
+
+    .updates-grid { display: grid; }
+    .update {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr) 60px;
+      gap: 22px;
+      align-items: center;
+      padding: 28px 0;
+      border-top: 1px solid var(--line);
+      cursor: pointer;
+      transition: padding .2s var(--ease), color .2s;
+    }
+    .update:last-child { border-bottom: 1px solid var(--line); }
+    .update:hover { padding-left: 12px; color: var(--signal); }
+    .update time { color: var(--gray); font: 10px/1.5 ui-monospace, monospace; }
+    .update h3 { margin: 0; font-size: clamp(21px, 2.2vw, 32px); letter-spacing: -.035em; }
+    .update .arrow { text-align: right; font-size: 22px; }
+
+    .press-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .press-card {
+      min-height: 380px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: clamp(28px, 4vw, 52px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .press-card h3 { margin: 15px 0; font-size: clamp(38px, 5vw, 70px); line-height: .88; letter-spacing: -.065em; text-transform: uppercase; }
+    .press-card p { color: var(--muted); line-height: 1.6; max-width: 560px; }
+    .press-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+
+    .contact-wrap {
+      min-height: 680px;
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: clamp(50px, 8vw, 130px);
+      align-items: start;
+    }
+    .contact-title { position: sticky; top: 145px; }
+    .contact-title h2 { margin: 20px 0; font-size: clamp(60px, 8vw, 124px); line-height: .78; letter-spacing: -.085em; }
+    .contact-title p { color: var(--muted); max-width: 440px; line-height: 1.6; }
+    .contact-form { display: grid; gap: 28px; }
+    .field { display: grid; gap: 10px; }
+    .field label { color: var(--gray); font: 10px/1 ui-monospace, monospace; letter-spacing: .12em; text-transform: uppercase; }
+    .field input, .field textarea {
+      width: 100%;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      border-radius: 0;
+      background: transparent;
+      color: var(--ivory);
+      padding: 12px 0 16px;
+      font-size: clamp(18px, 2vw, 26px);
+      outline: 0;
+      resize: vertical;
+    }
+    .field textarea { min-height: 140px; }
+    .field input:focus, .field textarea:focus { border-color: var(--signal); }
+    .form-note { color: var(--gray); font-size: 12px; line-height: 1.5; }
+
+    footer { border-top: 1px solid var(--line); }
+    .footer-inner { padding: 65px 0 40px; }
+    .footer-grid { display: grid; grid-template-columns: 1.7fr 1fr 1fr; gap: 40px; }
+    .footer-logo { font-weight: 950; line-height: .7; letter-spacing: -.085em; font-size: clamp(52px, 7vw, 104px); }
+    .footer-logo span { display: block; margin-left: .62em; font-size: 1.25em; color: var(--signal); }
+    .footer-col { color: var(--gray); font: 11px/1.9 ui-monospace, monospace; text-transform: uppercase; letter-spacing: .08em; }
+    .footer-col b { display: block; margin-bottom: 12px; color: var(--ivory); font-weight: 500; }
+    .footer-bottom { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 20px; color: var(--gray); font: 10px/1.5 ui-monospace, monospace; }
+
+    dialog {
+      width: min(950px, calc(100% - 32px));
+      max-height: min(820px, calc(100svh - 32px));
+      padding: 0;
+      color: var(--ivory);
+      background: var(--carbon-2);
+      border: 1px solid rgba(243,240,232,.25);
+      box-shadow: 0 50px 160px rgba(0,0,0,.65);
+    }
+    dialog::backdrop { background: rgba(0,0,0,.78); backdrop-filter: blur(8px); }
+    .modal-head { padding: 22px 26px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+    .modal-head b { font: 11px/1 ui-monospace, monospace; letter-spacing: .12em; text-transform: uppercase; }
+    .close-modal { border: 1px solid var(--line); background: transparent; width: 38px; height: 38px; cursor: pointer; }
+    .modal-body { padding: clamp(28px, 5vw, 64px); overflow: auto; }
+    .modal-body h2 { margin: 0 0 24px; font-size: clamp(44px, 7vw, 86px); line-height: .86; letter-spacing: -.075em; }
+    .modal-body p { color: var(--muted); line-height: 1.7; }
+    .demo-builder { margin-top: 36px; display: grid; gap: 28px; }
+    .range-row { display: grid; grid-template-columns: 160px 1fr 58px; gap: 18px; align-items: center; }
+    .range-row label { color: var(--muted); font: 11px ui-monospace, monospace; text-transform: uppercase; }
+    input[type="range"] { accent-color: var(--signal); width: 100%; }
+    .range-value { font: 14px ui-monospace, monospace; text-align: right; }
+    .team-score { display: grid; grid-template-columns: 1fr auto; gap: 25px; align-items: end; padding-top: 30px; border-top: 1px solid var(--line); }
+    .team-score strong { display: block; font-size: clamp(54px, 8vw, 100px); line-height: .75; letter-spacing: -.07em; }
+    .team-score span { color: var(--gray); font: 10px/1.5 ui-monospace, monospace; }
+    .score-label { color: var(--signal); font: 11px ui-monospace, monospace; text-transform: uppercase; }
+
+    .toast {
+      position: fixed;
+      z-index: 300;
+      right: 22px;
+      bottom: 22px;
+      max-width: min(420px, calc(100% - 44px));
+      padding: 16px 18px;
+      border: 1px solid rgba(243,240,232,.24);
+      background: var(--ivory);
+      color: var(--carbon);
+      font: 12px/1.5 ui-monospace, monospace;
+      transform: translateY(140%);
+      transition: transform .35s var(--ease);
+    }
+    .toast.show { transform: translateY(0); }
+
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    .preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      background: var(--carbon);
+      transition: opacity .55s var(--ease), visibility .55s;
+    }
+    .preloader.hidden { opacity: 0; visibility: hidden; }
+    .pre-scale { text-align: center; }
+    .pre-scale b { display: block; font-size: clamp(44px, 9vw, 110px); letter-spacing: -.08em; line-height: .8; }
+    .pre-scale span { display: block; margin-top: 22px; color: var(--signal); font: 11px ui-monospace, monospace; letter-spacing: .15em; }
+    .pre-bar { width: min(360px, 72vw); height: 1px; margin-top: 25px; background: var(--line); overflow: hidden; }
+    .pre-bar::after { content: ""; display: block; width: 100%; height: 100%; background: var(--signal); transform: translateX(-100%); animation: load 1.25s var(--ease) forwards; }
+    @keyframes load { to { transform: none; } }
+
+    [data-lang-text] { transition: opacity .16s; }
+    html.switching [data-lang-text] { opacity: .1; }
+
+    @media (max-width: 1050px) {
+      .desktop-nav { display: none; }
+      .menu-button { display: flex; position: relative; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-card { min-height: 580px; }
+      .hero { padding-top: 135px; }
+      .games-grid { grid-template-columns: 1fr; }
+      .future-tile { min-height: 340px; }
+      .manifesto-grid { grid-template-columns: 1fr; }
+      .metric-grid { grid-template-columns: 1fr 1fr; }
+      .metric:nth-child(2) { border-right: 0; }
+      .metric:nth-child(-n+2) { border-bottom: 1px solid rgba(13,13,15,.18); }
+      .contact-wrap { grid-template-columns: 1fr; }
+      .contact-title { position: static; }
+    }
+
+    @media (max-width: 720px) {
+      .nav { min-height: 72px; }
+      .brand-sub, .lang-toggle { display: none; }
+      .hero { min-height: auto; padding-bottom: 60px; }
+      .hero h1 .hero-scale { margin-left: 8%; }
+      .hero-card { min-height: 510px; }
+      .card-title { font-size: 54px; }
+      .section-heading { grid-template-columns: 1fr; align-items: start; }
+      .section-code { text-align: left; }
+      .principle { grid-template-columns: 45px 1fr; }
+      .principle span:last-child { grid-column: 2; }
+      .metric-grid { grid-template-columns: 1fr; }
+      .metric { min-height: 205px; border-right: 0; border-bottom: 1px solid rgba(13,13,15,.18); }
+      .metric:last-child { border-bottom: 0; }
+      .updates-grid .update { grid-template-columns: 88px minmax(0,1fr) 24px; gap: 10px; }
+      .press-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid > :first-child { grid-column: 1 / -1; }
+      .footer-bottom { flex-direction: column; }
+      .range-row { grid-template-columns: 1fr 48px; }
+      .range-row label { grid-column: 1 / -1; }
+      .team-score { grid-template-columns: 1fr; }
+      .hero-index { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Vai al contenuto</a>
+  <div class="noise" aria-hidden="true"></div>
+
+  <div class="preloader" aria-hidden="true">
+    <div class="pre-scale">
+      <b>FUORI<br>SCALA</b>
+      <span>SCALE 1:1 → 10:1</span>
+      <div class="pre-bar"></div>
+    </div>
+  </div>
+
+  <header id="siteHeader">
+    <div class="site-shell nav">
+      <a class="brand" href="#top" aria-label="FUORISCALA, home">
+        <span>FUORI</span><span class="scale">SCALA</span>
+        <small class="brand-sub">INDEPENDENT GAME STUDIO / ITALY</small>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Navigazione principale">
+        <a href="#games" data-nav="games" data-lang-text="navGames">Giochi</a>
+        <a href="#studio" data-nav="studio" data-lang-text="navStudio">Studio</a>
+        <a href="#updates" data-nav="updates" data-lang-text="navUpdates">Aggiornamenti</a>
+        <a href="#press" data-nav="press">Press</a>
+        <a href="#contact" data-nav="contact" data-lang-text="navContact">Contatti</a>
+      </nav>
+
+      <div class="nav-tools">
+        <div class="lang-toggle" aria-label="Seleziona lingua">
+          <button type="button" class="active" data-lang="it">IT</button>
+          <button type="button" data-lang="en">EN</button>
+        </div>
+        <button class="menu-button" type="button" aria-label="Apri menu" aria-expanded="false"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" aria-hidden="true">
+    <a href="#games" data-lang-text="navGames">Giochi</a>
+    <a href="#studio" data-lang-text="navStudio">Studio</a>
+    <a href="#updates" data-lang-text="navUpdates">Aggiornamenti</a>
+    <a href="#press">Press</a>
+    <a href="#contact" data-lang-text="navContact">Contatti</a>
+    <div class="mobile-meta">PROJECT 001 / RACING DYNASTY<br>CASTANO PRIMO / ITALY</div>
+  </div>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="site-shell hero-grid">
+        <div class="reveal">
+          <div class="micro" data-lang-text="heroMicro">Studio videoludico indipendente / Italia</div>
+          <h1 aria-label="FUORISCALA"><span>FUORI</span><span class="hero-scale">SCALA</span></h1>
+          <p class="hero-copy" data-lang-text="heroCopy">Un piccolo studio con ambizioni fuori misura. Creiamo giochi costruiti attorno a sistemi profondi, decisioni significative e identità riconoscibili.</p>
+          <div class="hero-actions">
+            <button class="button primary open-game" type="button"><span data-lang-text="discoverGame">Scopri Racing Dynasty</span><span>↗</span></button>
+            <a class="button ghost" href="#studio" data-lang-text="aboutStudio">Conosci lo studio</a>
+          </div>
+        </div>
+
+        <article class="hero-card reveal" aria-label="Racing Dynasty">
+          <div class="track-line" aria-hidden="true"></div>
+          <div class="car" aria-hidden="true"></div>
+          <div class="card-content">
+            <div class="micro" data-lang-text="project001Status">PROJECT 001 / DISPONIBILE ORA</div>
+            <div class="card-title">RACING<br>DYNASTY</div>
+            <p class="card-text" data-lang-text="gameCardCopy">Costruisci la scuderia, conquista due campionati e trasforma ogni stagione in una storia diversa.</p>
+            <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+              <a class="card-link" href="https://fuoriscala-dev.github.io/racing-dynasty/" target="_blank" rel="noopener" data-lang-text="playNow" style="color:var(--signal);font-weight:800;">Gioca ora ↗</a>
+              <button class="card-link open-game" type="button" data-lang-text="enterProject">Entra nel progetto ↗</button>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="hero-index">001 / FUORISCALA</div>
+    </section>
+
+    <section id="games">
+      <div class="site-shell section-inner">
+        <div class="section-heading reveal">
+          <h2><span data-lang-text="our">I nostri</span><span data-lang-text="games">giochi</span></h2>
+          <div class="section-code">01 RELEASE<br>01 WORLD<br>∞ STORIES</div>
+        </div>
+
+        <div class="games-grid">
+          <article class="game-tile featured reveal">
+            <div class="tile-top">
+              <span class="micro">PROJECT 001</span>
+              <span class="status" data-lang-text="comingSoon" style="background:var(--signal);color:#fff;">Disponibile ora</span>
+            </div>
+            <div class="tile-main">
+              <h3>RACING<br>DYNASTY</h3>
+              <p data-lang-text="gameDescription">Un gestionale motoristico roguelike in cui piloti, componenti e strategia costruiscono l’identità della tua squadra. Punta al titolo Piloti, al Costruttori o al Grande Slam.</p>
+              <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+                <a class="tile-link" href="https://fuoriscala-dev.github.io/racing-dynasty/" target="_blank" rel="noopener" style="color:var(--signal);"><span data-lang-text="playNow">Gioca ora</span><span>↗</span></a>
+                <button class="tile-link open-game" type="button"><span data-lang-text="exploreProject">Esplora il progetto</span><span>↗</span></button>
+              </div>
+            </div>
+          </article>
+
+          <article class="game-tile future-tile reveal">
+            <div class="tile-top">
+              <span class="micro">PROJECT 002</span>
+              <span class="status" data-lang-text="notAnnounced">Non annunciato</span>
+            </div>
+            <div class="tile-main">
+              <h3 data-lang-text="nextProject">La prossima idea non deve stare nella stessa scala.</h3>
+              <p data-lang-text="futureCopy">FUORISCALA nasce per andare oltre un solo gioco, conservando la stessa cura progettuale e una voce indipendente.</p>
+              <a class="tile-link" href="#contact"><span data-lang-text="followStudio">Segui lo studio</span><span>↓</span></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="studio">
+      <div class="site-shell section-inner">
+        <div class="manifesto-grid">
+          <div class="manifesto-statement reveal" data-lang-text="manifestoTitle">Troppo <em>ambizioso</em> per le sue dimensioni.</div>
+          <div class="manifesto-copy reveal">
+            <div class="micro" data-lang-text="studioMicro">Manifesto / Metodo</div>
+            <p data-lang-text="manifestoCopy">FUORISCALA è uno studio indipendente italiano fondato su un’idea semplice: la dimensione del team non deve determinare quella dell’ambizione. Progettiamo giochi leggibili, profondi e riconoscibili, senza fingere di essere più grandi di ciò che siamo.</p>
+            <div class="principles">
+              <div class="principle"><span class="num">01</span><strong data-lang-text="principle1">Progettato</strong><span data-lang-text="principle1Copy">Ogni elemento deve avere una ragione per esistere.</span></div>
+              <div class="principle"><span class="num">02</span><strong data-lang-text="principle2">Diretto</strong><span data-lang-text="principle2Copy">Niente linguaggio aziendale finto o promesse vuote.</span></div>
+              <div class="principle"><span class="num">03</span><strong data-lang-text="principle3">Autoriale</strong><span data-lang-text="principle3Copy">Ogni progetto deve conservare una personalità propria.</span></div>
+              <div class="principle"><span class="num">04</span><strong data-lang-text="principle4">Fuori misura</strong><span data-lang-text="principle4Copy">Il formato non deve diventare un limite creativo.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="numbers" aria-label="Numeri di Racing Dynasty">
+      <div class="site-shell section-inner">
+        <div class="section-heading reveal">
+          <h2><span>Racing</span><span>Dynasty</span></h2>
+          <div class="section-code">CAREER DATA<br>PROJECT 001</div>
+        </div>
+        <div class="metric-grid reveal">
+          <div class="metric"><strong data-count="2">0</strong><span data-lang-text="metric1">Campionati indipendenti</span></div>
+          <div class="metric"><strong data-count="7">0</strong><span data-lang-text="metric2">Elementi della scuderia</span></div>
+          <div class="metric"><strong data-count="20">0</strong><span data-lang-text="metric3">Piloti nel roster</span></div>
+          <div class="metric"><strong data-count="52">0</strong><span data-lang-text="metric4">Circuiti da scoprire</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="updates">
+      <div class="site-shell section-inner">
+        <div class="section-heading reveal">
+          <h2><span data-lang-text="latest">Ultimi</span><span data-lang-text="updates">aggiornamenti</span></h2>
+          <div class="section-code">BUILD NOTES<br>STUDIO NEWS</div>
+        </div>
+        <div class="updates-grid reveal">
+          <article class="update" tabindex="0" data-update="brand"><time datetime="2026-08-04">04 AUG 2026</time><h3 data-lang-text="news1">FUORISCALA diventa la casa di Racing Dynasty.</h3><span class="arrow">↗</span></article>
+          <article class="update" tabindex="0" data-update="launch"><time datetime="2026-08-04">04 AUG 2026</time><h3 data-lang-text="news2">Racing Dynasty è ora giocabile online.</h3><span class="arrow">↗</span></article>
+          <article class="update" tabindex="0" data-update="development"><time>BUILD 0.9</time><h3 data-lang-text="news3">La carriera entra nella fase finale di sviluppo.</h3><span class="arrow">↗</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="press">
+      <div class="site-shell section-inner">
+        <div class="section-heading reveal">
+          <h2><span>Press</span><span>& media</span></h2>
+          <div class="section-code">FACT SHEET<br>BRAND COPY<br>CONTACT</div>
+        </div>
+        <div class="press-grid">
+          <article class="press-card reveal">
+            <div>
+              <div class="micro">FUORISCALA / STUDIO</div>
+              <h3 data-lang-text="studioKit">Studio kit</h3>
+              <p data-lang-text="studioKitCopy">Profilo dello studio, descrizioni ufficiali, identità del marchio e contatti per stampa e collaborazioni.</p>
+            </div>
+            <div class="press-actions">
+              <button class="button primary" id="downloadFactSheet" type="button" data-lang-text="downloadSheet">Scarica fact sheet</button>
+              <button class="button" id="copyStudioCopy" type="button" data-lang-text="copyDescription">Copia descrizione</button>
+            </div>
+          </article>
+          <article class="press-card reveal">
+            <div>
+              <div class="micro">PROJECT 001 / GAME</div>
+              <h3>Racing Dynasty</h3>
+              <p data-lang-text="gameKitCopy">Sinossi, caratteristiche principali, dati di progetto e materiali predisposti per la futura pagina press del gioco.</p>
+            </div>
+            <div class="press-actions">
+              <button class="button primary open-game" type="button" data-lang-text="openGameSheet">Apri game sheet</button>
+              <a class="button" href="#contact" data-lang-text="pressContact">Contatto stampa</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="site-shell section-inner contact-wrap">
+        <div class="contact-title reveal">
+          <div class="micro" data-lang-text="contactMicro">Contatti / Collaborazioni</div>
+          <h2 data-lang-text="talk">PARLIAMO.</h2>
+          <p data-lang-text="contactCopy">Per stampa, collaborazioni, feedback o per seguire lo sviluppo di Racing Dynasty. Il form della demo simula l’invio e non trasmette dati.</p>
+        </div>
+        <form class="contact-form reveal" id="contactForm" novalidate>
+          <div class="field"><label for="name" data-lang-text="nameLabel">Nome</label><input id="name" name="name" autocomplete="name" required></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="subject" data-lang-text="subjectLabel">Oggetto</label><input id="subject" name="subject" required></div>
+          <div class="field"><label for="message" data-lang-text="messageLabel">Messaggio</label><textarea id="message" name="message" required></textarea></div>
+          <button class="button primary" type="submit" data-lang-text="sendDemo">Simula invio</button>
+          <div class="form-note" data-lang-text="formNote">Demo offline: nessun dato viene inviato o salvato.</div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="site-shell footer-inner">
+      <div class="footer-grid">
+        <div class="footer-logo">FUORI<span>SCALA</span></div>
+        <div class="footer-col"><b data-lang-text="footerGames">Giochi</b>Racing Dynasty<br>Project 002</div>
+        <div class="footer-col"><b data-lang-text="footerStudio">Studio</b>Press<br>Support<br>Social</div>
+      </div>
+      <div class="footer-bottom"><span>© 2026 FUORISCALA — DEMO CONCEPT</span><span data-lang-text="footerMade">CREATO IN ITALIA / PENSATO FUORI SCALA</span></div>
+    </div>
+  </footer>
+
+  <dialog id="gameDialog" aria-labelledby="gameDialogTitle">
+    <div class="modal-head"><b>PROJECT 001 / INTERACTIVE GAME SHEET</b><button class="close-modal" type="button" aria-label="Chiudi">×</button></div>
+    <div class="modal-body">
+      <div class="micro">MOTORSPORT MANAGEMENT ROGUELIKE</div>
+      <h2 id="gameDialogTitle">RACING<br>DYNASTY</h2>
+      <p data-lang-text="dialogIntro">Costruisci la tua scuderia scegliendo il livello dei reparti. Questa piccola simulazione dimostra l’interattività del sito: modifica i valori e osserva cambiare il rating complessivo.</p>
+      <div class="demo-builder">
+        <div class="range-row"><label for="drivers" data-lang-text="drivers">Piloti</label><input id="drivers" type="range" min="40" max="100" value="82"><output class="range-value" for="drivers">82</output></div>
+        <div class="range-row"><label for="engine" data-lang-text="engine">Motore</label><input id="engine" type="range" min="40" max="100" value="76"><output class="range-value" for="engine">76</output></div>
+        <div class="range-row"><label for="chassis" data-lang-text="chassis">Telaio</label><input id="chassis" type="range" min="40" max="100" value="70"><output class="range-value" for="chassis">70</output></div>
+        <div class="range-row"><label for="strategy" data-lang-text="strategy">Strategia</label><input id="strategy" type="range" min="40" max="100" value="78"><output class="range-value" for="strategy">78</output></div>
+        <div class="team-score"><div><div class="score-label" data-lang-text="teamRating">Rating scuderia</div><strong id="teamScore">78</strong></div><span id="teamVerdict">CONTENDER / TOP 4</span></div>
+      </div>
+      <div style="padding:0 0 4px;"><a class="button primary" href="https://fuoriscala-dev.github.io/racing-dynasty/" target="_blank" rel="noopener" data-lang-text="playNowFull" style="display:inline-block;">Gioca a Racing Dynasty ora ↗</a></div>
+    </div>
+  </dialog>
+
+  <dialog id="newsDialog" aria-labelledby="newsDialogTitle">
+    <div class="modal-head"><b>FUORISCALA / STUDIO UPDATE</b><button class="close-modal" type="button" aria-label="Chiudi">×</button></div>
+    <div class="modal-body"><div class="micro" id="newsMeta">04 AUG 2026</div><h2 id="newsDialogTitle">FUORISCALA</h2><p id="newsDialogCopy"></p></div>
+  </dialog>
+
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const translations = {
+      it: {
+        navGames: 'Giochi', navStudio: 'Studio', navUpdates: 'Aggiornamenti', navContact: 'Contatti',
+        heroMicro: 'Studio videoludico indipendente / Italia',
+        heroCopy: 'Un piccolo studio con ambizioni fuori misura. Creiamo giochi costruiti attorno a sistemi profondi, decisioni significative e identità riconoscibili.',
+        discoverGame: 'Scopri Racing Dynasty', aboutStudio: 'Conosci lo studio',
+        gameCardCopy: 'Costruisci la scuderia, conquista due campionati e trasforma ogni stagione in una storia diversa.',
+        enterProject: 'Entra nel progetto ↗', playNow: 'Gioca ora ↗', playNowFull: 'Gioca a Racing Dynasty ora ↗', project001Status: 'PROJECT 001 / DISPONIBILE ORA', our: 'I nostri', games: 'giochi', comingSoon: 'Disponibile ora',
+        gameDescription: 'Un gestionale motoristico roguelike in cui piloti, componenti e strategia costruiscono l’identità della tua squadra. Punta al titolo Piloti, al Costruttori o al Grande Slam.',
+        exploreProject: 'Esplora il progetto', notAnnounced: 'Non annunciato',
+        nextProject: 'La prossima idea non deve stare nella stessa scala.',
+        futureCopy: 'FUORISCALA nasce per andare oltre un solo gioco, conservando la stessa cura progettuale e una voce indipendente.',
+        followStudio: 'Segui lo studio', manifestoTitle: 'Troppo <em>ambizioso</em> per le sue dimensioni.', studioMicro: 'Manifesto / Metodo',
+        manifestoCopy: 'FUORISCALA è uno studio indipendente italiano fondato su un’idea semplice: la dimensione del team non deve determinare quella dell’ambizione. Progettiamo giochi leggibili, profondi e riconoscibili, senza fingere di essere più grandi di ciò che siamo.',
+        principle1: 'Progettato', principle1Copy: 'Ogni elemento deve avere una ragione per esistere.', principle2: 'Diretto', principle2Copy: 'Niente linguaggio aziendale finto o promesse vuote.', principle3: 'Autoriale', principle3Copy: 'Ogni progetto deve conservare una personalità propria.', principle4: 'Fuori misura', principle4Copy: 'Il formato non deve diventare un limite creativo.',
+        metric1: 'Campionati indipendenti', metric2: 'Elementi della scuderia', metric3: 'Piloti nel roster', metric4: 'Circuiti da scoprire',
+        latest: 'Ultimi', updates: 'aggiornamenti', news1: 'FUORISCALA diventa la casa di Racing Dynasty.', news2: 'Racing Dynasty è ora giocabile online.', news3: 'La carriera entra nella fase finale di sviluppo.',
+        studioKit: 'Studio kit', studioKitCopy: 'Profilo dello studio, descrizioni ufficiali, identità del marchio e contatti per stampa e collaborazioni.', downloadSheet: 'Scarica fact sheet', copyDescription: 'Copia descrizione', gameKitCopy: 'Sinossi, caratteristiche principali, dati di progetto e materiali predisposti per la futura pagina press del gioco.', openGameSheet: 'Apri game sheet', pressContact: 'Contatto stampa',
+        contactMicro: 'Contatti / Collaborazioni', talk: 'PARLIAMO.', contactCopy: 'Per stampa, collaborazioni, feedback o per seguire lo sviluppo di Racing Dynasty.', nameLabel: 'Nome', subjectLabel: 'Oggetto', messageLabel: 'Messaggio', sendDemo: 'Invia messaggio', formNote: 'Si aprirà il tuo programma di posta predefinito.', footerGames: 'Giochi', footerStudio: 'Studio', footerMade: 'CREATO IN ITALIA / PENSATO FUORI SCALA',
+        dialogIntro: 'Costruisci la tua scuderia scegliendo il livello dei reparti. Questa piccola simulazione dimostra l’interattività del sito: modifica i valori e osserva cambiare il rating complessivo.', drivers: 'Piloti', engine: 'Motore', chassis: 'Telaio', strategy: 'Strategia', teamRating: 'Rating scuderia'
+      },
+      en: {
+        navGames: 'Games', navStudio: 'Studio', navUpdates: 'Updates', navContact: 'Contact',
+        heroMicro: 'Independent game studio / Italy',
+        heroCopy: 'A small studio with outsized ambitions. We create games built around deep systems, meaningful decisions and distinctive identities.',
+        discoverGame: 'Discover Racing Dynasty', aboutStudio: 'Meet the studio',
+        gameCardCopy: 'Build the team, win two championships and turn every season into a different story.',
+        enterProject: 'Enter the project ↗', playNow: 'Play now ↗', playNowFull: 'Play Racing Dynasty now ↗', project001Status: 'PROJECT 001 / AVAILABLE NOW', our: 'Our', games: 'games', comingSoon: 'Available now',
+        gameDescription: 'A motorsport management roguelike where drivers, components and strategy define your team. Chase the Drivers’ title, Constructors’ title or the Grand Slam.',
+        exploreProject: 'Explore the project', notAnnounced: 'Not announced',
+        nextProject: 'The next idea does not have to fit the same scale.',
+        futureCopy: 'FUORISCALA was built to grow beyond one game while preserving the same design care and independent voice.',
+        followStudio: 'Follow the studio', manifestoTitle: 'Too <em>ambitious</em> for its size.', studioMicro: 'Manifesto / Method',
+        manifestoCopy: 'FUORISCALA is an independent Italian studio founded on one simple idea: team size should never define the size of the ambition. We design readable, deep and distinctive games without pretending to be bigger than we are.',
+        principle1: 'Designed', principle1Copy: 'Every element must have a reason to exist.', principle2: 'Direct', principle2Copy: 'No fake corporate language or empty promises.', principle3: 'Authorial', principle3Copy: 'Every project must preserve its own personality.', principle4: 'Outsized', principle4Copy: 'Format should never become a creative limit.',
+        metric1: 'Independent championships', metric2: 'Team elements', metric3: 'Drivers in the roster', metric4: 'Circuits to discover',
+        latest: 'Latest', updates: 'updates', news1: 'FUORISCALA becomes the home of Racing Dynasty.', news2: 'Racing Dynasty is now playable online.', news3: 'Career mode enters the final stage of development.',
+        studioKit: 'Studio kit', studioKitCopy: 'Studio profile, official descriptions, brand identity and contacts for press and collaborations.', downloadSheet: 'Download fact sheet', copyDescription: 'Copy description', gameKitCopy: 'Synopsis, key features, project data and materials prepared for the future game press page.', openGameSheet: 'Open game sheet', pressContact: 'Press contact',
+        contactMicro: 'Contact / Collaborations', talk: 'LET’S TALK.', contactCopy: 'For press, collaborations, feedback or to follow Racing Dynasty development.', nameLabel: 'Name', subjectLabel: 'Subject', messageLabel: 'Message', sendDemo: 'Send message', formNote: 'This will open your default email app.', footerGames: 'Games', footerStudio: 'Studio', footerMade: 'MADE IN ITALY / DESIGNED OUT OF SCALE',
+        dialogIntro: 'Build your team by setting the performance of each department. This small simulation demonstrates the website interaction: change the values and watch the overall rating update.', drivers: 'Drivers', engine: 'Engine', chassis: 'Chassis', strategy: 'Strategy', teamRating: 'Team rating'
+      }
+    };
+
+    const html = document.documentElement;
+    const header = document.getElementById('siteHeader');
+    const menuButton = document.querySelector('.menu-button');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const toast = document.querySelector('.toast');
+    const gameDialog = document.getElementById('gameDialog');
+    const newsDialog = document.getElementById('newsDialog');
+    let currentLang = 'it';
+
+    window.addEventListener('load', () => setTimeout(() => document.querySelector('.preloader').classList.add('hidden'), 1250));
+    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 20), { passive: true });
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove('show'), 2800);
+    }
+
+    function setMenu(open) {
+      menuButton.classList.toggle('open', open);
+      menuButton.setAttribute('aria-expanded', String(open));
+      menuButton.setAttribute('aria-label', open ? 'Chiudi menu' : 'Apri menu');
+      mobileMenu.classList.toggle('open', open);
+      mobileMenu.setAttribute('aria-hidden', String(!open));
+      document.body.classList.toggle('menu-open', open);
+    }
+    menuButton.addEventListener('click', () => setMenu(!mobileMenu.classList.contains('open')));
+    mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+
+    document.querySelectorAll('[data-lang]').forEach(button => button.addEventListener('click', () => {
+      const lang = button.dataset.lang;
+      if (lang === currentLang) return;
+      html.classList.add('switching');
+      setTimeout(() => {
+        currentLang = lang;
+        html.dataset.lang = lang;
+        html.lang = lang;
+        document.querySelectorAll('[data-lang]').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+        document.querySelectorAll('[data-lang-text]').forEach(el => {
+          const value = translations[lang][el.dataset.langText];
+          if (value) el.innerHTML = value;
+        });
+        document.title = lang === 'it' ? 'FUORISCALA — Studio videoludico indipendente' : 'FUORISCALA — Independent Game Studio';
+        html.classList.remove('switching');
+      }, 140);
+    }));
+
+    const revealObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); }
+    }), { threshold: .12 });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    const navSections = [...document.querySelectorAll('main section[id]')];
+    const navObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      document.querySelectorAll('[data-nav]').forEach(link => link.classList.toggle('active', link.dataset.nav === entry.target.id));
+    }), { rootMargin: '-42% 0px -52% 0px', threshold: 0 });
+    navSections.forEach(section => navObserver.observe(section));
+
+    const metricObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.querySelectorAll('[data-count]').forEach(el => {
+        const end = Number(el.dataset.count); const start = performance.now(); const duration = 900;
+        const tick = now => { const p = Math.min(1, (now - start) / duration); el.textContent = Math.round(end * (1 - Math.pow(1-p, 3))); if (p < 1) requestAnimationFrame(tick); };
+        requestAnimationFrame(tick);
+      });
+      metricObserver.unobserve(entry.target);
+    }), { threshold: .5 });
+    metricObserver.observe(document.querySelector('.metric-grid'));
+
+    function openDialog(dialog) { dialog.showModal(); document.body.classList.add('modal-open'); }
+    function closeDialog(dialog) { dialog.close(); document.body.classList.remove('modal-open'); }
+    document.querySelectorAll('.open-game').forEach(btn => btn.addEventListener('click', () => openDialog(gameDialog)));
+    document.querySelectorAll('.close-modal').forEach(btn => btn.addEventListener('click', () => closeDialog(btn.closest('dialog'))));
+    [gameDialog, newsDialog].forEach(dialog => dialog.addEventListener('click', e => {
+      const rect = dialog.getBoundingClientRect();
+      if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) closeDialog(dialog);
+    }));
+
+    const ranges = [...document.querySelectorAll('.demo-builder input[type="range"]')];
+    const scoreEl = document.getElementById('teamScore');
+    const verdictEl = document.getElementById('teamVerdict');
+    function updateScore() {
+      ranges.forEach(range => range.nextElementSibling.value = range.value);
+      const values = Object.fromEntries(ranges.map(r => [r.id, Number(r.value)]));
+      const score = Math.round(values.drivers * .35 + values.engine * .24 + values.chassis * .21 + values.strategy * .20);
+      scoreEl.textContent = score;
+      verdictEl.textContent = score >= 88 ? 'TITLE FAVOURITE / P1' : score >= 78 ? 'CONTENDER / TOP 4' : score >= 67 ? 'POINTS TEAM / TOP 10' : 'REBUILD / BACKMARKER';
+    }
+    ranges.forEach(range => range.addEventListener('input', updateScore));
+    updateScore();
+
+    const newsContent = {
+      brand: {
+        date: '04 AUG 2026', title: 'FUORISCALA',
+        it: 'Racing Dynasty non sarà più un progetto isolato: diventa il primo titolo di FUORISCALA, uno studio indipendente italiano pensato per ospitare giochi futuri senza perdere un’identità autoriale.',
+        en: 'Racing Dynasty is no longer an isolated project: it becomes the first title by FUORISCALA, an independent Italian studio built to host future games without losing an authorial identity.'
+      },
+      launch: {
+        date: '04 AUG 2026', title: 'RACING DYNASTY È LIVE',
+        it: 'Racing Dynasty è disponibile ora, gratuitamente, direttamente dal browser — desktop e mobile. Nessun download, nessuna installazione: si gioca dal link.',
+        en: 'Racing Dynasty is available now, free, directly from your browser — desktop and mobile. No download, no install: just open the link and play.'
+      },
+      development: {
+        date: 'BUILD 0.9', title: 'FINAL STRETCH',
+        it: 'La struttura della carriera, i due campionati e il sistema della scuderia sono definiti. La fase finale è concentrata su rifinitura, bilanciamento e preparazione alla pubblicazione.',
+        en: 'Career structure, the two championships and the team system are defined. The final stage focuses on polish, balancing and release preparation.'
+      }
+    };
+    document.querySelectorAll('.update').forEach(item => {
+      const open = () => { const d = newsContent[item.dataset.update]; document.getElementById('newsMeta').textContent = d.date; document.getElementById('newsDialogTitle').textContent = d.title; document.getElementById('newsDialogCopy').textContent = d[currentLang]; openDialog(newsDialog); };
+      item.addEventListener('click', open);
+      item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+    });
+
+    document.getElementById('downloadFactSheet').addEventListener('click', () => {
+      const text = currentLang === 'it' ?
+`FUORISCALA — FACT SHEET\n\nTIPO: Studio videoludico indipendente\nPAESE: Italia\nFONDATORE: Giorgio Gardon\nPRIMO TITOLO: Racing Dynasty\n\nDESCRIZIONE\nFUORISCALA è uno studio videoludico indipendente italiano che crea giochi ambiziosi, costruiti attorno a sistemi profondi, decisioni significative e identità riconoscibili.\n\nTAGLINE\nPiccolo studio. Giochi fuori misura.` :
+`FUORISCALA — FACT SHEET\n\nTYPE: Independent game studio\nCOUNTRY: Italy\nFOUNDER: Giorgio Gardon\nFIRST TITLE: Racing Dynasty\n\nDESCRIPTION\nFUORISCALA is an independent Italian game studio creating ambitious games built around deep systems, meaningful decisions and distinctive identities.\n\nTAGLINE\nSmall studio. Outsized games.`;
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob); const a = document.createElement('a');
+      a.href = url; a.download = 'FUORISCALA_fact_sheet.txt'; a.click(); URL.revokeObjectURL(url);
+      showToast(currentLang === 'it' ? 'Fact sheet generato.' : 'Fact sheet generated.');
+    });
+
+    document.getElementById('copyStudioCopy').addEventListener('click', async () => {
+      const text = currentLang === 'it' ? 'FUORISCALA è uno studio videoludico indipendente italiano che crea giochi ambiziosi, costruiti attorno a sistemi profondi, decisioni significative e identità riconoscibili.' : 'FUORISCALA is an independent Italian game studio creating ambitious games built around deep systems, meaningful decisions and distinctive identities.';
+      try { await navigator.clipboard.writeText(text); showToast(currentLang === 'it' ? 'Descrizione copiata.' : 'Description copied.'); }
+      catch { showToast(currentLang === 'it' ? 'Copia non consentita dal browser.' : 'Clipboard access was blocked.'); }
+    });
+
+    // NOTA: nessun indirizzo email reale e' stato fornito — placeholder da sostituire prima del lancio.
+    const CONTACT_EMAIL = 'contatti@fuoriscala.it'; // <-- SOSTITUIRE con l'indirizzo vero
+    document.getElementById('contactForm').addEventListener('submit', event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      const name = form.name.value, email = form.email.value, subject = form.subject.value, message = form.message.value;
+      const body = `${message}\n\n---\n${currentLang==='it'?'Da':'From'}: ${name} (${email})`;
+      const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
+      showToast(currentLang === 'it' ? 'Apro il tuo client email...' : 'Opening your email client...');
+    });
+  </script>
+</body>
+</html>
