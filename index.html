@@ -211,6 +211,18 @@
       pointer-events: none;
     }
     .card-title-hero { font-size: clamp(60px, 6.5vw, 104px); }
+    .button-play-hero {
+      min-height: 62px;
+      padding: 0 34px;
+      font-size: 13px;
+      letter-spacing: .14em;
+      box-shadow: 0 8px 30px rgba(229,71,50,.4);
+      animation: play-pulse 2.6s ease-in-out infinite;
+    }
+    @keyframes play-pulse {
+      0%, 100% { box-shadow: 0 8px 30px rgba(229,71,50,.4); }
+      50% { box-shadow: 0 8px 40px rgba(229,71,50,.7), 0 0 0 6px rgba(229,71,50,.12); }
+    }
     .micro {
       color: var(--signal);
       font: 11px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -682,9 +694,8 @@
             <div class="micro" data-lang-text="project001Status">PROJECT 001 / DISPONIBILE ORA</div>
             <div class="card-title card-title-hero">RACING<br>DYNASTY</div>
             <p class="card-text" data-lang-text="gameCardCopy">Costruisci la scuderia, conquista due campionati e trasforma ogni stagione in una storia diversa.</p>
-            <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:8px;">
-              <a class="button primary" href="https://fuoriscala-dev.github.io/racing-dynasty/" target="_blank" rel="noopener" data-lang-text="playNow">Gioca ora ↗</a>
-              <button class="card-link open-game" type="button" data-lang-text="enterProject">Entra nel progetto ↗</button>
+            <div style="margin-top:16px;">
+              <a class="button primary button-play-hero" href="https://fuoriscala-dev.github.io/racing-dynasty/" target="_blank" rel="noopener" data-lang-text="playNow">Gioca ora ↗</a>
             </div>
           </div>
         </article>
