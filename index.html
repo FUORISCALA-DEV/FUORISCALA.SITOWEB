@@ -188,10 +188,29 @@
     }
     .hero-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.08fr) minmax(380px, .92fr);
+      grid-template-columns: minmax(300px, .78fr) minmax(420px, 1.22fr);
       gap: clamp(44px, 7vw, 112px);
       align-items: center;
     }
+    .hero-studio-intro { max-width: 380px; }
+    .hero-copy-small {
+      margin: 18px 0 26px;
+      font-size: clamp(15px, 1.15vw, 17px);
+      line-height: 1.6;
+      color: #a9a7a1;
+    }
+    .hero-card-main { min-height: 700px; }
+    .hero-car-img {
+      position: absolute;
+      z-index: 3;
+      width: 88%;
+      max-width: 640px;
+      right: -8%;
+      top: 10%;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,.5));
+      pointer-events: none;
+    }
+    .card-title-hero { font-size: clamp(60px, 6.5vw, 104px); }
     .micro {
       color: var(--signal);
       font: 11px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -290,18 +309,6 @@
       border: 1px dashed rgba(243,240,232,.14);
       border-radius: inherit;
     }
-    .car {
-      position: absolute;
-      z-index: 3;
-      width: 112px; height: 24px;
-      top: 31%; left: 20%;
-      transform: rotate(6deg);
-      background: var(--signal);
-      clip-path: polygon(0 43%, 12% 20%, 54% 16%, 66% 0, 79% 0, 84% 18%, 96% 28%, 100% 65%, 83% 69%, 76% 100%, 66% 100%, 61% 68%, 28% 70%, 24% 100%, 14% 100%, 10% 69%, 0 65%);
-      filter: drop-shadow(0 0 18px rgba(229,71,50,.5));
-      animation: car-pulse 3s ease-in-out infinite;
-    }
-    @keyframes car-pulse { 50% { transform: rotate(6deg) translateX(12px); filter: drop-shadow(0 0 30px rgba(229,71,50,.75)); } }
     .card-content {
       position: absolute;
       inset: auto 0 0;
@@ -329,7 +336,7 @@
     }
     .hero-index::before { content: ""; width: 62px; height: 1px; align-self: center; background: var(--signal); }
 
-    .section-inner { padding: clamp(84px, 10vw, 150px) 0; }
+    .section-inner { padding-top: clamp(84px, 10vw, 150px); padding-bottom: clamp(84px, 10vw, 150px); }
     .section-heading {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
@@ -402,6 +409,7 @@
 
     .manifesto-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(50px, 9vw, 150px); }
     .manifesto-statement {
+      min-width: 0;
       font-size: clamp(52px, 7vw, 105px);
       line-height: .84;
       letter-spacing: -.075em;
@@ -638,8 +646,6 @@
       <nav class="desktop-nav" aria-label="Navigazione principale">
         <a href="#games" data-nav="games" data-lang-text="navGames">Giochi</a>
         <a href="#studio" data-nav="studio" data-lang-text="navStudio">Studio</a>
-        <a href="#updates" data-nav="updates" data-lang-text="navUpdates">Aggiornamenti</a>
-        <a href="#press" data-nav="press">Press</a>
         <a href="#contact" data-nav="contact" data-lang-text="navContact">Contatti</a>
       </nav>
 
@@ -656,8 +662,6 @@
   <div class="mobile-menu" aria-hidden="true">
     <a href="#games" data-lang-text="navGames">Giochi</a>
     <a href="#studio" data-lang-text="navStudio">Studio</a>
-    <a href="#updates" data-lang-text="navUpdates">Aggiornamenti</a>
-    <a href="#press">Press</a>
     <a href="#contact" data-lang-text="navContact">Contatti</a>
     <div class="mobile-meta">PROJECT 001 / RACING DYNASTY<br>ITALY</div>
   </div>
@@ -665,31 +669,27 @@
   <main id="main">
     <section class="hero" id="top">
       <div class="site-shell hero-grid">
-        <div class="reveal">
-          <div class="micro" data-lang-text="heroMicro">Studio videoludico indipendente / Italia</div>
-          <h1 aria-label="FUORISCALA"><span>FUORI</span><span class="hero-scale">SCALA</span></h1>
-          <p class="hero-copy" data-lang-text="heroCopy">Un piccolo studio con ambizioni fuori misura. Creiamo giochi costruiti attorno a sistemi profondi, decisioni significative e identità riconoscibili.</p>
-          <div class="hero-actions">
-            <button class="button primary open-game" type="button"><span data-lang-text="discoverGame">Scopri Racing Dynasty</span><span>↗</span></button>
-            <a class="button ghost" href="#studio" data-lang-text="aboutStudio">Conosci lo studio</a>
-          </div>
+        <div class="reveal hero-studio-intro">
+          <div class="micro" data-lang-text="heroMicro">FUORISCALA — Studio videoludico indipendente</div>
+          <p class="hero-copy-small" data-lang-text="heroCopy">Un piccolo studio con ambizioni fuori misura. Creiamo giochi costruiti attorno a sistemi profondi, decisioni significative e identità riconoscibili.</p>
+          <a class="button ghost" href="#studio" data-lang-text="aboutStudio">Conosci lo studio</a>
         </div>
 
-        <article class="hero-card reveal" aria-label="Racing Dynasty">
+        <article class="hero-card reveal hero-card-main" aria-label="Racing Dynasty">
           <div class="track-line" aria-hidden="true"></div>
-          <div class="car" aria-hidden="true"></div>
+          <img class="hero-car-img" src="assets/hero-car.webp" alt="" aria-hidden="true">
           <div class="card-content">
             <div class="micro" data-lang-text="project001Status">PROJECT 001 / DISPONIBILE ORA</div>
-            <div class="card-title">RACING<br>DYNASTY</div>
+            <div class="card-title card-title-hero">RACING<br>DYNASTY</div>
             <p class="card-text" data-lang-text="gameCardCopy">Costruisci la scuderia, conquista due campionati e trasforma ogni stagione in una storia diversa.</p>
-            <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
-              <a class="card-link" href="https://fuoriscala-dev.github.io/racing-dynasty/" target="_blank" rel="noopener" data-lang-text="playNow" style="color:var(--signal);font-weight:800;">Gioca ora ↗</a>
+            <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+              <a class="button primary" href="https://fuoriscala-dev.github.io/racing-dynasty/" target="_blank" rel="noopener" data-lang-text="playNow">Gioca ora ↗</a>
               <button class="card-link open-game" type="button" data-lang-text="enterProject">Entra nel progetto ↗</button>
             </div>
           </div>
         </article>
       </div>
-      <div class="hero-index">001 / FUORISCALA</div>
+      <div class="hero-index">001 / RACING DYNASTY</div>
     </section>
 
     <section id="games">
@@ -763,67 +763,20 @@
       </div>
     </section>
 
-    <section id="updates">
-      <div class="site-shell section-inner">
-        <div class="section-heading reveal">
-          <h2><span data-lang-text="latest">Ultimi</span><span data-lang-text="updates">aggiornamenti</span></h2>
-          <div class="section-code">BUILD NOTES<br>STUDIO NEWS</div>
-        </div>
-        <div class="updates-grid reveal">
-          <article class="update" tabindex="0" data-update="brand"><time datetime="2026-08-04">04 AUG 2026</time><h3 data-lang-text="news1">FUORISCALA diventa la casa di Racing Dynasty.</h3><span class="arrow">↗</span></article>
-          <article class="update" tabindex="0" data-update="launch"><time datetime="2026-08-04">04 AUG 2026</time><h3 data-lang-text="news2">Racing Dynasty è ora giocabile online.</h3><span class="arrow">↗</span></article>
-          <article class="update" tabindex="0" data-update="development"><time>BUILD 0.9</time><h3 data-lang-text="news3">La carriera entra nella fase finale di sviluppo.</h3><span class="arrow">↗</span></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="press">
-      <div class="site-shell section-inner">
-        <div class="section-heading reveal">
-          <h2><span>Press</span><span>& media</span></h2>
-          <div class="section-code">FACT SHEET<br>BRAND COPY<br>CONTACT</div>
-        </div>
-        <div class="press-grid">
-          <article class="press-card reveal">
-            <div>
-              <div class="micro">FUORISCALA / STUDIO</div>
-              <h3 data-lang-text="studioKit">Studio kit</h3>
-              <p data-lang-text="studioKitCopy">Profilo dello studio, descrizioni ufficiali, identità del marchio e contatti per stampa e collaborazioni.</p>
-            </div>
-            <div class="press-actions">
-              <button class="button primary" id="downloadFactSheet" type="button" data-lang-text="downloadSheet">Scarica fact sheet</button>
-              <button class="button" id="copyStudioCopy" type="button" data-lang-text="copyDescription">Copia descrizione</button>
-            </div>
-          </article>
-          <article class="press-card reveal">
-            <div>
-              <div class="micro">PROJECT 001 / GAME</div>
-              <h3>Racing Dynasty</h3>
-              <p data-lang-text="gameKitCopy">Sinossi, caratteristiche principali e dati di progetto, pronti per stampa e collaborazioni.</p>
-            </div>
-            <div class="press-actions">
-              <button class="button primary" id="downloadGameSheet" type="button" data-lang-text="downloadGameSheetBtn">Scarica game sheet</button>
-              <button class="button open-game" type="button" data-lang-text="tryGameSheet">Prova la simulazione</button>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
     <section id="contact">
       <div class="site-shell section-inner contact-wrap">
         <div class="contact-title reveal">
           <div class="micro" data-lang-text="contactMicro">Contatti / Collaborazioni</div>
           <h2 data-lang-text="talk">PARLIAMO.</h2>
-          <p data-lang-text="contactCopy">Per stampa, collaborazioni, feedback o per seguire lo sviluppo di Racing Dynasty. Il form della demo simula l’invio e non trasmette dati.</p>
+          <p data-lang-text="contactCopy">Per stampa, collaborazioni, feedback o per seguire lo sviluppo di Racing Dynasty.</p>
         </div>
-        <form class="contact-form reveal" id="contactForm" novalidate>
+        <form class="contact-form reveal" id="contactForm" action="https://formspree.io/f/SOSTITUISCI_CON_IL_TUO_ID" method="POST" enctype="multipart/form-data">
           <div class="field"><label for="name" data-lang-text="nameLabel">Nome</label><input id="name" name="name" autocomplete="name" required></div>
           <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
           <div class="field"><label for="subject" data-lang-text="subjectLabel">Oggetto</label><input id="subject" name="subject" required></div>
           <div class="field"><label for="message" data-lang-text="messageLabel">Messaggio</label><textarea id="message" name="message" required></textarea></div>
-          <button class="button primary" type="submit" data-lang-text="sendDemo">Simula invio</button>
-          <div class="form-note" data-lang-text="formNote">Demo offline: nessun dato viene inviato o salvato.</div>
+          <div class="field"><label for="attachment" data-lang-text="attachmentLabel">Allegato (facoltativo)</label><input id="attachment" name="attachment" type="file"></div>
+          <button class="button primary" type="submit" data-lang-text="sendDemo">Invia messaggio</button>
         </form>
       </div>
     </section>
@@ -834,7 +787,7 @@
       <div class="footer-grid">
         <div class="footer-logo">FUORI<span>SCALA</span></div>
         <div class="footer-col"><b data-lang-text="footerGames">Giochi</b><a href="https://fuoriscala-dev.github.io/racing-dynasty/" target="_blank" rel="noopener">Racing Dynasty</a><span class="dim-link" data-lang-text="notAnnounced">Non annunciato</span></div>
-        <div class="footer-col"><b data-lang-text="footerStudio">Studio</b><a href="#press">Press</a><a href="#contact" data-lang-text="navContact">Contatti</a></div>
+        <div class="footer-col"><b data-lang-text="footerStudio">Studio</b><a href="#contact" data-lang-text="navContact">Contatti</a></div>
       </div>
       <div class="footer-bottom"><span>© 2026 FUORISCALA</span><span data-lang-text="footerMade">CREATO IN ITALIA / PENSATO FUORI SCALA</span></div>
     </div>
@@ -883,7 +836,7 @@
         metric1: 'Campionati indipendenti', metric2: 'Elementi della scuderia', metric3: 'Piloti nel roster', metric4: 'Circuiti da scoprire',
         latest: 'Ultimi', updates: 'aggiornamenti', news1: 'FUORISCALA diventa la casa di Racing Dynasty.', news2: 'Racing Dynasty è ora giocabile online.', news3: 'Dal prototipo al lancio: come è nata la carriera di Racing Dynasty.',
         studioKit: 'Studio kit', studioKitCopy: 'Profilo dello studio, descrizioni ufficiali, identità del marchio e contatti per stampa e collaborazioni.', downloadSheet: 'Scarica fact sheet', copyDescription: 'Copia descrizione', gameKitCopy: 'Sinossi, caratteristiche principali e dati di progetto, pronti per stampa e collaborazioni.', downloadGameSheetBtn: 'Scarica game sheet', tryGameSheet: 'Prova la simulazione',
-        contactMicro: 'Contatti / Collaborazioni', talk: 'PARLIAMO.', contactCopy: 'Per stampa, collaborazioni, feedback o per seguire lo sviluppo di Racing Dynasty.', nameLabel: 'Nome', subjectLabel: 'Oggetto', messageLabel: 'Messaggio', sendDemo: 'Invia messaggio', formNote: 'Si aprirà il tuo programma di posta predefinito.', footerGames: 'Giochi', footerStudio: 'Studio', footerMade: 'CREATO IN ITALIA / PENSATO FUORI SCALA',
+        contactMicro: 'Contatti / Collaborazioni', talk: 'PARLIAMO.', contactCopy: 'Per stampa, collaborazioni, feedback o per seguire lo sviluppo di Racing Dynasty.', nameLabel: 'Nome', subjectLabel: 'Oggetto', messageLabel: 'Messaggio', attachmentLabel: 'Allegato (facoltativo)', sendDemo: 'Invia messaggio', footerGames: 'Giochi', footerStudio: 'Studio', footerMade: 'CREATO IN ITALIA / PENSATO FUORI SCALA',
         dialogIntro: 'Costruisci la tua scuderia scegliendo il livello dei reparti. Questa piccola simulazione dimostra l’interattività del sito: modifica i valori e osserva cambiare il rating complessivo.', drivers: 'Piloti', engine: 'Motore', chassis: 'Telaio', strategy: 'Strategia', teamRating: 'Rating scuderia'
       },
       en: {
@@ -903,7 +856,7 @@
         metric1: 'Independent championships', metric2: 'Team elements', metric3: 'Drivers in the roster', metric4: 'Circuits to discover',
         latest: 'Latest', updates: 'updates', news1: 'FUORISCALA becomes the home of Racing Dynasty.', news2: 'Racing Dynasty is now playable online.', news3: 'From prototype to launch: how Racing Dynasty\u2019s career mode came together.',
         studioKit: 'Studio kit', studioKitCopy: 'Studio profile, official descriptions, brand identity and contacts for press and collaborations.', downloadSheet: 'Download fact sheet', copyDescription: 'Copy description', gameKitCopy: 'Synopsis, key features and project data, ready for press and collaborations.', downloadGameSheetBtn: 'Download game sheet', tryGameSheet: 'Try the simulation',
-        contactMicro: 'Contact / Collaborations', talk: 'LET’S TALK.', contactCopy: 'For press, collaborations, feedback or to follow Racing Dynasty development.', nameLabel: 'Name', subjectLabel: 'Subject', messageLabel: 'Message', sendDemo: 'Send message', formNote: 'This will open your default email app.', footerGames: 'Games', footerStudio: 'Studio', footerMade: 'MADE IN ITALY / DESIGNED OUT OF SCALE',
+        contactMicro: 'Contact / Collaborations', talk: 'LET’S TALK.', contactCopy: 'For press, collaborations, feedback or to follow Racing Dynasty development.', nameLabel: 'Name', subjectLabel: 'Subject', messageLabel: 'Message', attachmentLabel: 'Attachment (optional)', sendDemo: 'Send message', footerGames: 'Games', footerStudio: 'Studio', footerMade: 'MADE IN ITALY / DESIGNED OUT OF SCALE',
         dialogIntro: 'Build your team by setting the performance of each department. This small simulation demonstrates the website interaction: change the values and watch the overall rating update.', drivers: 'Drivers', engine: 'Engine', chassis: 'Chassis', strategy: 'Strategy', teamRating: 'Team rating'
       }
     };
@@ -1001,102 +954,31 @@
     ranges.forEach(range => range.addEventListener('input', updateScore));
     updateScore();
 
-    const newsContent = {
-      brand: {
-        date: '04 AUG 2026', title: 'FUORISCALA',
-        it: 'Racing Dynasty non sarà più un progetto isolato: diventa il primo titolo di FUORISCALA, uno studio indipendente italiano pensato per ospitare giochi futuri senza perdere un’identità autoriale.',
-        en: 'Racing Dynasty is no longer an isolated project: it becomes the first title by FUORISCALA, an independent Italian studio built to host future games without losing an authorial identity.'
-      },
-      launch: {
-        date: '04 AUG 2026', title: 'RACING DYNASTY È LIVE',
-        it: 'Racing Dynasty è disponibile ora, gratuitamente, direttamente dal browser — desktop e mobile. Nessun download, nessuna installazione: si gioca dal link.',
-        en: 'Racing Dynasty is available now, free, directly from your browser — desktop and mobile. No download, no install: just open the link and play.'
-      },
-      development: {
-        date: 'BUILD 0.9', title: 'DIETRO LE QUINTE',
-        it: 'La struttura della carriera, i due campionati e il sistema della scuderia sono nati attraverso decine di iterazioni di bilanciamento — dalla prima build giocabile fino alla versione ora online.',
-        en: 'Career structure, the two championships and the team system were shaped through dozens of balancing iterations — from the first playable build to the version now live.'
-      }
-    };
-    document.querySelectorAll('.update').forEach(item => {
-      const open = () => { const d = newsContent[item.dataset.update]; document.getElementById('newsMeta').textContent = d.date; document.getElementById('newsDialogTitle').textContent = d.title; document.getElementById('newsDialogCopy').textContent = d[currentLang]; openDialog(newsDialog); };
-      item.addEventListener('click', open);
-      item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
-    });
-
-    document.getElementById('downloadFactSheet').addEventListener('click', () => {
-      const text = currentLang === 'it' ?
-`FUORISCALA — FACT SHEET\n\nTIPO: Studio videoludico indipendente\nPAESE: Italia\nFONDATORE: Giorgio Gardon\nPRIMO TITOLO: Racing Dynasty\n\nDESCRIZIONE\nFUORISCALA è uno studio videoludico indipendente italiano che crea giochi ambiziosi, costruiti attorno a sistemi profondi, decisioni significative e identità riconoscibili.\n\nTAGLINE\nPiccolo studio. Giochi fuori misura.` :
-`FUORISCALA — FACT SHEET\n\nTYPE: Independent game studio\nCOUNTRY: Italy\nFOUNDER: Giorgio Gardon\nFIRST TITLE: Racing Dynasty\n\nDESCRIPTION\nFUORISCALA is an independent Italian game studio creating ambitious games built around deep systems, meaningful decisions and distinctive identities.\n\nTAGLINE\nSmall studio. Outsized games.`;
-      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob); const a = document.createElement('a');
-      a.href = url; a.download = 'FUORISCALA_fact_sheet.txt'; a.click(); URL.revokeObjectURL(url);
-      showToast(currentLang === 'it' ? 'Fact sheet generato.' : 'Fact sheet generated.');
-    });
-
-    document.getElementById('downloadGameSheet').addEventListener('click', () => {
-      const text = currentLang === 'it' ?
-`RACING DYNASTY — GAME SHEET
-
-STUDIO: FUORISCALA
-GENERE: Gestionale motoristico roguelike
-PIATTAFORMA: Browser (desktop e mobile), nessuna installazione richiesta
-LINK: https://fuoriscala-dev.github.io/racing-dynasty/
-
-SINOSSI
-Costruisci una scuderia di Formula da zero: due piloti, cinque reparti tecnici. Ogni stagione è una nuova run, con piloti e componenti generati proceduralmente da un pool di 250 piloti e 80 motori. Punta al titolo Piloti, al titolo Costruttori o a entrambi (Grande Slam) su un calendario di gare scelte tra 50 circuiti.
-
-CARATTERISTICHE PRINCIPALI
-- Due classifiche indipendenti: Piloti e Costruttori
-- Sistema di sinergie tra pezzi della scuderia (mentalità condivise)
-- THE GOAT: pilota Immortal rarissimo con probabilità di comparsa reale
-- Sistema Sponsor a 3 livelli con trade-off economici
-- Garage con livree personalizzabili (in arrivo)
-- 50 obiettivi sbloccabili, Museo Dynasty, Sala Trofei
-
-PRIMO TITOLO DI: FUORISCALA` :
-`RACING DYNASTY — GAME SHEET
-
-STUDIO: FUORISCALA
-GENRE: Motorsport management roguelike
-PLATFORM: Browser (desktop and mobile), no install required
-LINK: https://fuoriscala-dev.github.io/racing-dynasty/
-
-SYNOPSIS
-Build a Formula team from scratch: two drivers, five technical departments. Every season is a new run, with drivers and components procedurally drawn from a pool of 250 drivers and 80 engines. Chase the Drivers' title, the Constructors' title, or both (Grand Slam) across a calendar drawn from 50 circuits.
-
-KEY FEATURES
-- Two independent standings: Drivers and Constructors
-- Team synergy system based on shared mentalities
-- THE GOAT: an ultra-rare Immortal driver with a real, documented spawn rate
-- 3-tier Sponsor system with real economic trade-offs
-- Garage with customizable liveries (coming soon)
-- 50 unlockable achievements, Dynasty Museum, Trophy Room
-
-FIRST TITLE BY: FUORISCALA`;
-      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob); const a = document.createElement('a');
-      a.href = url; a.download = 'Racing_Dynasty_game_sheet.txt'; a.click(); URL.revokeObjectURL(url);
-      showToast(currentLang === 'it' ? 'Game sheet generato.' : 'Game sheet generated.');
-    });
-
-    document.getElementById('copyStudioCopy').addEventListener('click', async () => {
-      const text = currentLang === 'it' ? 'FUORISCALA è uno studio videoludico indipendente italiano che crea giochi ambiziosi, costruiti attorno a sistemi profondi, decisioni significative e identità riconoscibili.' : 'FUORISCALA is an independent Italian game studio creating ambitious games built around deep systems, meaningful decisions and distinctive identities.';
-      try { await navigator.clipboard.writeText(text); showToast(currentLang === 'it' ? 'Descrizione copiata.' : 'Description copied.'); }
-      catch { showToast(currentLang === 'it' ? 'Copia non consentita dal browser.' : 'Clipboard access was blocked.'); }
-    });
-
-    // NOTA: nessun indirizzo email reale e' stato fornito — placeholder da sostituire prima del lancio.
-    const CONTACT_EMAIL = 'email-da-confermare@fuoriscala.it'; // <-- PLACEHOLDER: sostituire con l'indirizzo vero prima del lancio pubblico
-    document.getElementById('contactForm').addEventListener('submit', event => {
+    // V: invio vero del form contatti via Formspree (supporta anche l'allegato) — non piu' un mailto
+    // che dipendeva dal client email del visitatore e non poteva comunque allegare file.
+    document.getElementById('contactForm').addEventListener('submit', async event => {
       event.preventDefault();
       const form = event.currentTarget;
       if (!form.checkValidity()) { form.reportValidity(); return; }
-      const name = form.name.value, email = form.email.value, subject = form.subject.value, message = form.message.value;
-      const body = `${message}\n\n---\n${currentLang==='it'?'Da':'From'}: ${name} (${email})`;
-      const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.location.href = mailto;
-      showToast(currentLang === 'it' ? 'Apro il tuo client email...' : 'Opening your email client...');
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' },
+        });
+        if (response.ok) {
+          form.reset();
+          showToast(currentLang === 'it' ? 'Messaggio inviato, grazie!' : 'Message sent, thank you!');
+        } else {
+          showToast(currentLang === 'it' ? 'Invio non riuscito, riprova più tardi.' : 'Send failed, please try again later.');
+        }
+      } catch {
+        showToast(currentLang === 'it' ? 'Errore di connessione, riprova.' : 'Connection error, please try again.');
+      } finally {
+        submitBtn.disabled = false;
+      }
     });
   </script>
 </body>
