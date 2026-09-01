@@ -449,6 +449,9 @@
     .tile-main h3 { margin: 0 0 18px; max-width: 900px; font-size: clamp(42px, 6vw, 92px); line-height: .84; letter-spacing: -.075em; }
     .tile-main p { max-width: 640px; color: var(--muted); font-size: 17px; line-height: 1.6; }
     .tile-link { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 20px; margin-top: 32px; font: 11px/1 ui-monospace, monospace; letter-spacing: .12em; color: var(--signal); }
+    .rd-roadmap-mini { display: flex; flex-direction: column; gap: 10px; margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+    .rd-roadmap-item { display: flex; align-items: baseline; gap: 12px; font: 12px/1.5 var(--font, inherit); color: var(--gray); }
+    .rd-roadmap-label { flex: 0 0 52px; font: 10px/1 ui-monospace, monospace; letter-spacing: .1em; color: var(--signal); font-weight: 700; }
     .future-tile { background: #111114; }
     .future-tile .tile-main h3 { font-size: clamp(36px, 4vw, 56px); }
     .future-tile::before {
@@ -705,6 +708,7 @@
         <div class="lang-toggle" aria-label="Seleziona lingua">
           <button type="button" class="active" data-lang="it">IT</button>
           <button type="button" data-lang="en">EN</button>
+          <button type="button" data-lang="es">ES</button>
         </div>
         <button class="menu-button" type="button" aria-label="Apri menu" aria-expanded="false"><span></span></button>
       </div>
@@ -740,8 +744,9 @@
             </div>
             <div class="card-title card-title-hero">RACING<br>DYNASTY</div>
             <p class="card-text" data-lang-text="gameCardCopy">Costruisci la scuderia, conquista due campionati e trasforma ogni stagione in una storia diversa.</p>
-            <div style="margin-top:16px;">
+            <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
               <a class="button primary button-play-hero" href="https://fuoriscala-dev.github.io/racing-dynasty/" target="_blank" rel="noopener" data-lang-text="playNow">Gioca ora ↗</a>
+              <a class="button ghost" href="https://www.instagram.com/racingdynasty.game/" target="_blank" rel="noopener" data-lang-text="followIgHero">Segui su Instagram</a>
             </div>
           </div>
         </article>
@@ -768,6 +773,11 @@
               <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
                 <a class="tile-link" href="https://fuoriscala-dev.github.io/racing-dynasty/" target="_blank" rel="noopener" style="color:var(--signal);"><span data-lang-text="playNow">Gioca ora</span><span>↗</span></a>
                 <button class="tile-link open-game" type="button"><span data-lang-text="exploreProject">Esplora il progetto</span><span>↗</span></button>
+              </div>
+              <div class="rd-roadmap-mini">
+                <div class="rd-roadmap-item"><span class="rd-roadmap-label">NOW</span><span data-lang-text="roadmapNow">Gioca a Racing Dynasty nel browser</span></div>
+                <div class="rd-roadmap-item"><span class="rd-roadmap-label">NEXT</span><span data-lang-text="roadmapNext">L'app Android è il prossimo passo</span></div>
+                <div class="rd-roadmap-item"><span class="rd-roadmap-label">LATER</span><span data-lang-text="roadmapLater">Altri aggiornamenti, sfide e modi di giocare</span></div>
               </div>
             </div>
           </article>
@@ -843,7 +853,7 @@
     <div class="site-shell footer-inner">
       <div class="footer-grid">
         <div class="footer-logo">FUORI<span>SCALA</span></div>
-        <div class="footer-col"><b data-lang-text="footerGames">Giochi</b><a href="https://fuoriscala-dev.github.io/racing-dynasty/" target="_blank" rel="noopener">Racing Dynasty</a><span class="dim-link" data-lang-text="notAnnounced">Non annunciato</span></div>
+        <div class="footer-col"><b data-lang-text="footerGames">Giochi</b><a href="https://fuoriscala-dev.github.io/racing-dynasty/" target="_blank" rel="noopener">Racing Dynasty</a><a href="https://www.instagram.com/racingdynasty.game/" target="_blank" rel="noopener" data-lang-text="footerIg">Instagram ↗</a><span class="dim-link" data-lang-text="notAnnounced">Non annunciato</span></div>
         <div class="footer-col"><b data-lang-text="footerStudio">Studio</b><a href="#contact" data-lang-text="navContact">Contatti</a></div>
       </div>
       <div class="footer-bottom"><span>© 2026 FUORISCALA</span><span data-lang-text="footerMade">CREATO IN ITALIA / PENSATO FUORI SCALA</span></div>
@@ -894,7 +904,9 @@
         latest: 'Ultimi', updates: 'aggiornamenti', news1: 'FUORISCALA diventa la casa di Racing Dynasty.', news2: 'Racing Dynasty è ora giocabile online.', news3: 'Dal prototipo al lancio: come è nata la carriera di Racing Dynasty.',
         studioKit: 'Studio kit', studioKitCopy: 'Profilo dello studio, descrizioni ufficiali, identità del marchio e contatti per stampa e collaborazioni.', downloadSheet: 'Scarica fact sheet', copyDescription: 'Copia descrizione', gameKitCopy: 'Sinossi, caratteristiche principali e dati di progetto, pronti per stampa e collaborazioni.', downloadGameSheetBtn: 'Scarica game sheet', tryGameSheet: 'Prova la simulazione',
         contactMicro: 'Contatti / Collaborazioni', talk: 'PARLIAMO.', contactCopy: 'Per stampa, collaborazioni, feedback o per seguire lo sviluppo di Racing Dynasty.', nameLabel: 'Nome', subjectLabel: 'Oggetto', messageLabel: 'Messaggio', attachmentLabel: 'Allegato (facoltativo)', sendDemo: 'Invia messaggio', footerGames: 'Giochi', footerStudio: 'Studio', footerMade: 'CREATO IN ITALIA / PENSATO FUORI SCALA',
-        dialogIntro: 'Costruisci la tua scuderia scegliendo il livello dei reparti. Questa piccola simulazione dimostra l’interattività del sito: modifica i valori e osserva cambiare il rating complessivo.', drivers: 'Piloti', engine: 'Motore', chassis: 'Telaio', strategy: 'Strategia', teamRating: 'Rating scuderia'
+        dialogIntro: 'Costruisci la tua scuderia scegliendo il livello dei reparti. Questa piccola simulazione dimostra l’interattività del sito: modifica i valori e osserva cambiare il rating complessivo.', drivers: 'Piloti', engine: 'Motore', chassis: 'Telaio', strategy: 'Strategia', teamRating: 'Rating scuderia',
+        followIgHero: 'Segui su Instagram', footerIg: 'Instagram ↗',
+        roadmapNow: 'Gioca a Racing Dynasty nel browser', roadmapNext: "L'app Android è il prossimo passo", roadmapLater: 'Altri aggiornamenti, sfide e modi di giocare'
       },
       en: {
         navGames: 'Games', navStudio: 'Studio', navUpdates: 'Updates', navContact: 'Contact',
@@ -914,7 +926,31 @@
         latest: 'Latest', updates: 'updates', news1: 'FUORISCALA becomes the home of Racing Dynasty.', news2: 'Racing Dynasty is now playable online.', news3: 'From prototype to launch: how Racing Dynasty\u2019s career mode came together.',
         studioKit: 'Studio kit', studioKitCopy: 'Studio profile, official descriptions, brand identity and contacts for press and collaborations.', downloadSheet: 'Download fact sheet', copyDescription: 'Copy description', gameKitCopy: 'Synopsis, key features and project data, ready for press and collaborations.', downloadGameSheetBtn: 'Download game sheet', tryGameSheet: 'Try the simulation',
         contactMicro: 'Contact / Collaborations', talk: 'LET’S TALK.', contactCopy: 'For press, collaborations, feedback or to follow Racing Dynasty development.', nameLabel: 'Name', subjectLabel: 'Subject', messageLabel: 'Message', attachmentLabel: 'Attachment (optional)', sendDemo: 'Send message', footerGames: 'Games', footerStudio: 'Studio', footerMade: 'MADE IN ITALY / DESIGNED OUT OF SCALE',
-        dialogIntro: 'Build your team by setting the performance of each department. This small simulation demonstrates the website interaction: change the values and watch the overall rating update.', drivers: 'Drivers', engine: 'Engine', chassis: 'Chassis', strategy: 'Strategy', teamRating: 'Team rating'
+        dialogIntro: 'Build your team by setting the performance of each department. This small simulation demonstrates the website interaction: change the values and watch the overall rating update.', drivers: 'Drivers', engine: 'Engine', chassis: 'Chassis', strategy: 'Strategy', teamRating: 'Team rating',
+        followIgHero: 'Follow on Instagram', footerIg: 'Instagram ↗',
+        roadmapNow: 'Play Racing Dynasty in your browser', roadmapNext: 'Android app coming next', roadmapLater: 'More updates, challenges and ways to play'
+      },
+      es: {
+        navGames: 'Juegos', navStudio: 'Estudio', navUpdates: 'Novedades', navContact: 'Contacto',
+        heroMicro: 'Estudio de videojuegos independiente / Italia', heroMicroTagline: 'Estudio de videojuegos independiente',
+        heroCopy: 'Un pequeño estudio con ambiciones fuera de escala. Creamos juegos construidos en torno a sistemas profundos, decisiones significativas e identidades reconocibles.',
+        discoverGame: 'Descubre Racing Dynasty', aboutStudio: 'Conoce el estudio',
+        gameCardCopy: 'Construye tu escudería, conquista dos campeonatos y convierte cada temporada en una historia diferente.',
+        enterProject: 'Entra al proyecto ↗', playNow: 'Jugar ahora ↗', playNowFull: 'Jugar a Racing Dynasty ahora ↗', project001Status: 'PROJECT 001 / DISPONIBLE AHORA', our: 'Nuestros', games: 'juegos', comingSoon: 'Disponible ahora',
+        gameDescription: 'Un gestor de motorsport roguelike donde pilotos, componentes y estrategia construyen la identidad de tu equipo. Ve a por el título de Pilotos, el de Constructores o el Gran Slam.',
+        exploreProject: 'Explora el proyecto', notAnnounced: 'No anunciado',
+        nextProject: 'La próxima idea no tiene que caber en la misma escala.',
+        futureCopy: 'FUORISCALA nace para ir más allá de un solo juego, conservando el mismo cuidado de diseño y una voz independiente.',
+        followStudio: 'Sigue al estudio', manifestoTitle: 'Demasiado <em>ambicioso</em> para su tamaño.', studioMicro: 'Manifiesto / Método',
+        manifestoCopy: 'FUORISCALA es un estudio independiente italiano fundado sobre una idea simple: el tamaño del equipo no debe determinar el de la ambición. Diseñamos juegos legibles, profundos y reconocibles, sin fingir ser más grandes de lo que somos.',
+        principle1: 'Diseñado', principle1Copy: 'Cada elemento debe tener una razón para existir.', principle2: 'Directo', principle2Copy: 'Nada de lenguaje corporativo falso ni promesas vacías.', principle3: 'De autor', principle3Copy: 'Cada proyecto debe conservar su propia personalidad.', principle4: 'Fuera de escala', principle4Copy: 'El formato no debe convertirse en un límite creativo.',
+        metric1: 'Campeonatos independientes', metric2: 'Elementos de la escudería', metric3: 'Pilotos en el roster', metric4: 'Circuitos por descubrir',
+        latest: 'Últimas', updates: 'novedades', news1: 'FUORISCALA se convierte en la casa de Racing Dynasty.', news2: 'Racing Dynasty ya se puede jugar online.', news3: 'Del prototipo al lanzamiento: cómo nació la carrera de Racing Dynasty.',
+        studioKit: 'Studio kit', studioKitCopy: 'Perfil del estudio, descripciones oficiales, identidad de marca y contactos para prensa y colaboraciones.', downloadSheet: 'Descargar fact sheet', copyDescription: 'Copiar descripción', gameKitCopy: 'Sinopsis, características principales y datos del proyecto, listos para prensa y colaboraciones.', downloadGameSheetBtn: 'Descargar game sheet', tryGameSheet: 'Prueba la simulación',
+        contactMicro: 'Contacto / Colaboraciones', talk: 'HABLEMOS.', contactCopy: 'Para prensa, colaboraciones, comentarios o para seguir el desarrollo de Racing Dynasty.', nameLabel: 'Nombre', subjectLabel: 'Asunto', messageLabel: 'Mensaje', attachmentLabel: 'Adjunto (opcional)', sendDemo: 'Enviar mensaje', footerGames: 'Juegos', footerStudio: 'Estudio', footerMade: 'HECHO EN ITALIA / PENSADO FUERA DE ESCALA',
+        dialogIntro: 'Construye tu escudería eligiendo el nivel de cada departamento. Esta pequeña simulación demuestra la interactividad del sitio: cambia los valores y observa cómo cambia el rating global.', drivers: 'Pilotos', engine: 'Motor', chassis: 'Chasis', strategy: 'Estrategia', teamRating: 'Rating de la escudería',
+        followIgHero: 'Síguenos en Instagram', footerIg: 'Instagram ↗',
+        roadmapNow: 'Juega a Racing Dynasty en tu navegador', roadmapNext: 'La app de Android es el siguiente paso', roadmapLater: 'Más actualizaciones, desafíos y formas de jugar'
       }
     };
 
