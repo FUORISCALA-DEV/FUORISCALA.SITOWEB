@@ -984,6 +984,32 @@
       showToast.timer = setTimeout(() => toast.classList.remove('show'), 2800);
     }
 
+    // V0.9.9.215 (sito): lingua automatica in base al paese di provenienza, richiesta da Gio —
+    // "paesi a lingua ES mette ES, Italia e San Marino IT, tutti gli altri EN". Una scelta
+    // manuale dell'utente viene sempre salvata e rispettata nelle visite successive, mai
+    // sovrascritta da un nuovo rilevamento automatico.
+    const LANG_STORAGE_KEY = 'fuoriscalaLangPref';
+    const SPANISH_SPEAKING_COUNTRIES = new Set([
+      'ES','MX','AR','CO','PE','VE','CL','EC','GT','CU','BO','DO','HN','PY','SV','NI','CR','PA','UY','PR','GQ'
+    ]);
+
+    function applyLanguage(lang, animate){
+      const setIt = () => {
+        currentLang = lang;
+        html.dataset.lang = lang;
+        html.lang = lang;
+        document.querySelectorAll('[data-lang]').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+        document.querySelectorAll('[data-lang-text]').forEach(el => {
+          const value = translations[lang][el.dataset.langText];
+          if (value) el.innerHTML = value;
+        });
+        document.title = lang === 'it' ? 'FUORISCALA — Studio videoludico indipendente' : 'FUORISCALA — Independent Game Studio';
+        if(animate) html.classList.remove('switching');
+      };
+      if(animate){ html.classList.add('switching'); setTimeout(setIt, 140); }
+      else setIt(); // primo caricamento pagina: nessuna dissolvenza, il contenuto non è ancora visibile all'utente
+    }
+
     function setMenu(open) {
       menuButton.classList.toggle('open', open);
       menuButton.setAttribute('aria-expanded', String(open));
@@ -995,23 +1021,33 @@
     menuButton.addEventListener('click', () => setMenu(!mobileMenu.classList.contains('open')));
     mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
 
+    const controllerRilevamento = new AbortController(); // V0.9.9.215: permette di annullare DAVVERO la richiesta, non solo ignorarne il risultato
+
     document.querySelectorAll('[data-lang]').forEach(button => button.addEventListener('click', () => {
+      controllerRilevamento.abort(); // scelta manuale: annulliamo subito qualunque rilevamento automatico ancora in corso, elimina la condizione di gara alla radice
       const lang = button.dataset.lang;
+      try{ localStorage.setItem(LANG_STORAGE_KEY, lang); }catch(e){ /* storage non disponibile: la scelta vale solo per questa visita */ }
       if (lang === currentLang) return;
-      html.classList.add('switching');
-      setTimeout(() => {
-        currentLang = lang;
-        html.dataset.lang = lang;
-        html.lang = lang;
-        document.querySelectorAll('[data-lang]').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
-        document.querySelectorAll('[data-lang-text]').forEach(el => {
-          const value = translations[lang][el.dataset.langText];
-          if (value) el.innerHTML = value;
-        });
-        document.title = lang === 'it' ? 'FUORISCALA — Studio videoludico indipendente' : 'FUORISCALA — Independent Game Studio';
-        html.classList.remove('switching');
-      }, 140);
+      applyLanguage(lang, true);
     }));
+
+    // rilevamento automatico — solo se l'utente non ha MAI scelto manualmente una lingua prima
+    (function rilevaLinguaAutomatica(){
+      let scelta = null;
+      try{ scelta = localStorage.getItem(LANG_STORAGE_KEY); }catch(e){ /* ignorato */ }
+      if(scelta === 'it' || scelta === 'en' || scelta === 'es'){ applyLanguage(scelta, false); return; }
+      const timeoutControllato = new Promise((_, reject) => setTimeout(() => reject('timeout'), 2500));
+      Promise.race([fetch('https://api.country.is/', { signal: controllerRilevamento.signal }), timeoutControllato])
+        .then(res => res.json())
+        .then(data => {
+          const paese = (data && data.country || '').toUpperCase();
+          let linguaRilevata = 'en'; // ripiego di default per qualunque altro paese
+          if(paese === 'IT' || paese === 'SM') linguaRilevata = 'it';
+          else if(SPANISH_SPEAKING_COUNTRIES.has(paese)) linguaRilevata = 'es';
+          if(linguaRilevata !== 'it') applyLanguage(linguaRilevata, false); // gia' 'it' di default, cambiamo solo se serve davvero
+        })
+        .catch(() => { /* servizio non raggiungibile o troppo lento: resta l'italiano di default, nessun problema */ });
+    })();
 
     const revealObserver = new IntersectionObserver(entries => entries.forEach(entry => {
       if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); }
