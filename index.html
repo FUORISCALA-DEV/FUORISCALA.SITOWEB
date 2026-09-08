@@ -452,6 +452,7 @@
     }
 
     .games-grid { display: grid; grid-template-columns: 1.55fr .75fr; gap: 20px; }
+    .it-only-nav.lang-hidden, .it-only-section.lang-hidden { display: none !important; }
     .game-tile {
       min-height: 540px;
       position: relative;
@@ -740,6 +741,7 @@
 
       <nav class="desktop-nav" aria-label="Navigazione principale">
         <a href="#games" data-nav="games" data-lang-text="navGames">Giochi</a>
+        <a href="#lab" data-nav="lab" class="it-only-nav">Lab</a>
         <a href="#studio" data-nav="studio" data-lang-text="navStudio">Studio</a>
         <a href="#contact" data-nav="contact" data-lang-text="navContact">Contatti</a>
       </nav>
@@ -757,6 +759,7 @@
 
   <div class="mobile-menu" aria-hidden="true">
     <a href="#games" data-lang-text="navGames">Giochi</a>
+    <a href="#lab" class="it-only-nav">Lab</a>
     <a href="#studio" data-lang-text="navStudio">Studio</a>
     <a href="#contact" data-lang-text="navContact">Contatti</a>
     <div class="mobile-lang-toggle" aria-label="Seleziona lingua">
@@ -838,6 +841,31 @@
               <h3 data-lang-text="nextProject">La prossima idea non deve stare nella stessa scala.</h3>
               <p data-lang-text="futureCopy">FUORISCALA nasce per andare oltre un solo gioco, conservando la stessa cura progettuale e una voce indipendente.</p>
               <a class="tile-link" href="#contact"><span data-lang-text="followStudio">Segui lo studio</span><span>↓</span></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="lab" class="it-only-section">
+      <div class="site-shell section-inner">
+        <div class="section-heading reveal">
+          <h2><span>Il</span><span>Lab</span></h2>
+          <div class="section-code">SPERIMENTI<br>FUORI DAI GIOCHI<br>UFFICIALI</div>
+        </div>
+
+        <div class="games-grid">
+          <article class="game-tile featured reveal">
+            <div class="tile-top">
+              <span class="micro">LAB 001</span>
+              <span class="status" style="background:var(--signal);color:#fff;">Disponibile ora</span>
+            </div>
+            <div class="tile-main">
+              <h3 style="font-size:clamp(28px, 3.6vw, 54px);">STAGIONE<br>TAVOLOGIOCHISTICA<br>AVANGUARDISTICA</h3>
+              <p>Non è un'app per giocare a giochi da tavolo. È l'app che amministra chi ci gioca. Due Pretendenti, una Stagione di Tornei, una Ruota che decide senza appello e quattro Award assegnati con la serietà statistica che la materia merita — Strategistico, Tatticistico, Duellistico e, perché no, Culistico.</p>
+              <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+                <a class="tile-link" href="https://fuoriscala-dev.github.io/Stagione-tavologiochistica-avanguardistica/" target="_blank" rel="noopener" style="color:var(--signal);"><span>Entra nell'Avanguardia</span><span>↗</span></a>
+              </div>
             </div>
           </article>
         </div>
@@ -1040,6 +1068,9 @@
           if (value) el.innerHTML = value;
         });
         document.title = lang === 'it' ? 'FUORISCALA — Studio videoludico indipendente' : 'FUORISCALA — Independent Game Studio';
+        // V0.9.9 (sito): sezione Lab visibile solo in italiano — richiesto da Gio, il progetto è
+        // tutto un gioco di parole intraducibile ("Tavologiochistica", "Culistico", ecc.)
+        document.querySelectorAll('.it-only-nav, .it-only-section').forEach(el => el.classList.toggle('lang-hidden', lang !== 'it'));
         if(animate) html.classList.remove('switching');
       };
       if(animate){ html.classList.add('switching'); setTimeout(setIt, 140); }
