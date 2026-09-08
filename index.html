@@ -453,6 +453,7 @@
 
     .games-grid { display: grid; grid-template-columns: 1.55fr .75fr; gap: 20px; }
     .it-only-nav.lang-hidden, .it-only-section.lang-hidden { display: none !important; }
+    .lab-stemma-img { position:absolute; right:-40px; bottom:-30px; width:340px; max-width:45%; opacity:.94; pointer-events:none; z-index:1; }
     .game-tile {
       min-height: 540px;
       position: relative;
@@ -695,6 +696,7 @@
       .hero { min-height: auto; padding-bottom: 60px; }
       .hero h1 .hero-scale { margin-left: 8%; }
       .hero-card { min-height: 510px; }
+      .lab-stemma-img { display: none; }
       .card-title:not(.card-title-hero) { font-size: 54px; }
       .card-title.card-title-hero { font-size: clamp(40px, 11vw, 54px); }
       .section-heading { grid-template-columns: 1fr; align-items: start; }
@@ -851,20 +853,21 @@
       <div class="site-shell section-inner">
         <div class="section-heading reveal">
           <h2><span>Il</span><span>Lab</span></h2>
-          <div class="section-code">SPERIMENTI<br>FUORI DAI GIOCHI<br>UFFICIALI</div>
+          <div class="section-code">REGOLAMENTI VERI<br>PER RIVALITÀ VERE<br>ZERO SERIETÀ</div>
         </div>
 
         <div class="games-grid">
-          <article class="game-tile featured reveal">
+          <article class="game-tile featured reveal" style="overflow:hidden;">
+            <img src="assets/lab/stemma.webp" alt="" aria-hidden="true" class="lab-stemma-img">
             <div class="tile-top">
               <span class="micro">LAB 001</span>
               <span class="status" style="background:var(--signal);color:#fff;">Disponibile ora</span>
             </div>
-            <div class="tile-main">
+            <div class="tile-main" style="max-width:64%;">
               <h3 style="font-size:clamp(28px, 3.6vw, 54px);">STAGIONE<br>TAVOLOGIOCHISTICA<br>AVANGUARDISTICA</h3>
               <p>Non è un'app per giocare a giochi da tavolo. È l'app che amministra chi ci gioca. Due Pretendenti, una Stagione di Tornei, una Ruota che decide senza appello e quattro Award assegnati con la serietà statistica che la materia merita — Strategistico, Tatticistico, Duellistico e, perché no, Culistico.</p>
               <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
-                <a class="tile-link" href="https://fuoriscala-dev.github.io/Stagione-tavologiochistica-avanguardistica/" target="_blank" rel="noopener" style="color:var(--signal);"><span>Entra nell'Avanguardia</span><span>↗</span></a>
+                <a class="tile-link" href="https://lab.fuoriscala.xyz/" target="_blank" rel="noopener" style="color:var(--signal);"><span>Entra nell'Avanguardia</span><span>↗</span></a>
               </div>
             </div>
           </article>
