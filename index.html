@@ -163,7 +163,7 @@
       border: 1px solid var(--line);
       background: var(--carbon-2);
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       padding: 3px;
       min-width: 84px;
     }
@@ -694,7 +694,9 @@
 
     @media (max-width: 720px) {
       .nav { min-height: 72px; }
-      .brand-sub, .lang-toggle { display: none; }
+      .brand-sub { display: none; }
+      .lang-toggle { min-width: 66px; }
+      .lang-toggle button { padding: 6px 5px; font-size: 9px; }
       .hero { min-height: auto; padding-bottom: 60px; }
       .hero h1 .hero-scale { margin-left: 8%; }
       .hero-card { min-height: 510px; }
